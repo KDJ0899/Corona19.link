@@ -17,25 +17,44 @@
 	     margin: 0;
     	 padding: 0;
 	  }
+	  #circle {
+		width:25px;
+		height:25px;
+		border-radius:50%;
+		text-align:center;
+		margin:0 auto;
+		font-size:12px;
+		vertical-align:middle;
+		line-height:24px;
+		border: 1px solid black;
+		color: white;
+	}
 	</style>
 </head>
 <body>
-
-<div id="map" style="width:50%;height:100%;"></div>
+<div style="width:100%; height:7%;"> 코로나</div>
+<div id="map" style="width:100%;height:93%;"></div>
  
 <script>
+
 var mapOptions = {
     center: new naver.maps.LatLng(37.3595704, 127.105399),
     zoom: 10
 };
+var data = ${obj};
 
 var map = new naver.maps.Map('map', mapOptions);
 
 var marker = new naver.maps.Marker({
-    position: new naver.maps.LatLng(37.3595704, 127.105399),
-    map: map
+    position: new naver.maps.LatLng(data[0].latitude, data[0].longitude),
+    map:map,
+    icon: {
+    	content: '<div id="circle" style="background-color:black;">'+data[0].number+'</div>'
+    },
     
 });
+
+
  
 
 
