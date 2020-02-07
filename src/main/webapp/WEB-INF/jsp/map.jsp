@@ -44,16 +44,49 @@ var mapOptions = {
 var data = ${obj};
 
 var map = new naver.maps.Map('map', mapOptions);
+var markers = [];
+var infoWindows = [];
+for(var i=0; i<data.length; i++){
+	var marker = new naver.maps.Marker({
+	    position: new naver.maps.LatLng(data[i].latitude, data[i].longitude),
+	    map:map,
+	    icon: {
+	    	content: '<div id="circle" style="background-color:black;">'+data[i].number+'</div>'
+	    },
+	    
+	});
+	var contentString = [
+        '<div>',
+        '   <p>'+data[i].number+'번째 확진자</p>',
+        '   <p>'+data[i].content+'</p>',
+        '</div>'
+    ].join('');
+	var infowindow = new naver.maps.InfoWindow({
+	    content: contentString
+	});
+	
+	markers[i] = marker;
+	infoWindows[i] = infowindow;
+}
 
-var marker = new naver.maps.Marker({
-    position: new naver.maps.LatLng(data[0].latitude, data[0].longitude),
-    map:map,
-    icon: {
-    	content: '<div id="circle" style="background-color:black;">'+data[0].number+'</div>'
-    },
-    
-});
+for (var i=0; i<markers.length; i++) {
+    naver.maps.Event.addListener(markers[i], 'click',  getClickHandler(i));
+}
 
+function getClickHandler(seq) {
+    return function(e) {
+        var marker = markers[seq],
+        infoWindow = infoWindows[seq];
+        
+        if (infoWindow.getMap()) {
+            infoWindow.close();
+        } else {
+            infoWindow.open(map, marker);
+        }
+        
+
+    }
+}
 
  
 
