@@ -14,6 +14,14 @@
 	     margin: 0;
     	 padding: 0;
 	  }
+	  .button{
+		  border-color: #DDDDDD;
+		  border-width: 1px;
+		  cursor: pointer;
+		  color: black;
+		  margin: 10px auto;
+		  display: block;
+    }
 </style>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
@@ -22,16 +30,45 @@
 
 <div id="chart_div" style="height : 30%;">
 </div>
+<div style="width : 50%; height : 100%; text-align: center; ">
+<h3>Naver Shopping</h3>
+<div id="shoppong_div" style = "overflow: auto; height : 60%;">
+
+</div>
+</div>
 
 <script type="text/javascript">
 	google.charts.load('current', {'packages':['corechart']});
 	google.charts.setOnLoadCallback(drawChart);
 	
+	showShoppingInfo();
+
+	
+	function showShoppingInfo(){
+		var obj = JSON.parse('${shopping}');
+		
+		var div = document.getElementById('shoppong_div');
+		var text = "";
+		
+		for(var i=0; i<obj.items.length; i++){
+			var item = obj.items[i];
+			text+='<div class="button" style="display:flex;" onclick="window.open(\''+item.link+'\');">'+
+			'<div style="width:50%;">'+
+			'<img src="'+item.image+'" width="50%"/>'+
+			'</div>'+
+			'<div style="width:50%;">'+
+			'<h3>'+item.title+'</h3>'+
+			'<h3>'+item.lprice+'원</h3>'+
+			'</div>'+
+			'</div>';
+		}
+		div.innerHTML = text;
+	}
 	
 	function drawChart(){
 		
 		var arr = [[],[]];
-		var obj = JSON.parse('${result}');
+		var obj = JSON.parse('${trend}');
 		
 		var chart_options = {
 				title : '검색 빈도('+obj.startDate+' ~ '+obj.endDate+')',
@@ -66,7 +103,6 @@
 			}
 		}
 		
-		console.log(arr);
 		var data = new google.visualization.arrayToDataTable(arr);
 		var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
 		chart.draw(data, chart_options);
