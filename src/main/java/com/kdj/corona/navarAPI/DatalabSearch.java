@@ -9,18 +9,16 @@ import java.net.URL;
 import com.google.gson.Gson;
 import com.kdj.corona.dto.SearchTrend;
 
-public class DatalabSearch {
+public class DatalabSearch extends ApiInfo{
+	
+	static String apiURL = "https://openapi.naver.com/v1/datalab/search";
 	
 	public static String connectAPI(SearchTrend body) {
-		String clientId = "aYQR3UekVkUdLCaYXjcF";//애플리케이션 클라이언트 아이디값";
-	    String clientSecret = "ruHZN2NlCd";//애플리케이션 클라이언트 시크릿값";
         Gson json = new Gson();
         String answer ="";
         
         
 	    try {
-	        String apiURL = "https://openapi.naver.com/v1/datalab/search";
-	        
 	        
 	        URL url = new URL(apiURL);
 	        HttpURLConnection con = (HttpURLConnection)url.openConnection();
