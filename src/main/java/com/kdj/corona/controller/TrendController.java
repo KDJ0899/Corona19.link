@@ -19,7 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.kdj.corona.dto.KeyWord;
 import com.kdj.corona.dto.SearchTrend;
+import com.kdj.corona.dto.Shopping;
 import com.kdj.corona.navarAPI.DatalabSearch;
+import com.kdj.corona.navarAPI.SearchShooping;
 
 @Controller
 @RequestMapping("trend")
@@ -41,7 +43,7 @@ public class TrendController {
 	        keywords3.add("확진자");
 	        SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd");
 	        String endDate = format1.format(new Date());
-	        SearchTrend body = SearchTrend.builder()
+	        SearchTrend trend = SearchTrend.builder()
 	        					.startDate("2020-01-17")
 	        					.endDate(endDate)
 	        					.timeUnit("date")
@@ -64,10 +66,17 @@ public class TrendController {
 	        					.gender("")
 	        					.build();
 	        
-	        String answer = DatalabSearch.connectAPI(body);       
+	        String answer = DatalabSearch.connectAPI(trend);       
 	        
-	    	model.addObject("result",answer);
+	    	model.addObject("trend",answer);
 	    	
+	    	
+	    	Shopping shopping = Shopping.builder()
+	    						.query("마스크")
+	    						.build();
+	    	answer = SearchShooping.connectAPI(shopping);
+	    	model.addObject("shopping", answer);
+	    	System.out.println(answer);
 	    return model;
 	}
 	
