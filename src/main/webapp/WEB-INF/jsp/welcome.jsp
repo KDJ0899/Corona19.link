@@ -4,24 +4,32 @@
 <html>
 <head>
 <meta charset="EUC-KR">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <title>Insert title here</title>
 <style type="text/css">
-	  html, body {
-	     position: absolute;
-	     width:100%;
-	     height: 100%;
-	     overflow:auto;
-	     margin: 0;
-    	 padding: 0;
-	  }
-	  .button{
-		  border-color: #DDDDDD;
-		  border-width: 1px;
-		  cursor: pointer;
-		  color: black;
-		  margin: 10px auto;
-		  display: block;
+	 html, body {
+	    position: absolute;
+	    width:100%;
+	    height: 100%;
+	    overflow:auto;
+	    margin: 0;
+    	padding: 0;
+	 }
+	.button{
+		border-color: #DDDDDD;
+		border-width: 1px;
+		cursor: pointer;
+		color: black;
+		margin: 10px auto;
+		display: block;
     }
+    .under_div{
+	    width : 50%; 
+	    height : 100%; 
+	    text-align: center; 
+	    padding: 1%;
+    }
+    
     @media (max-width:1023px) {
 	
 	}
@@ -33,17 +41,18 @@
 
 <div id="chart_div" style="height : 30%;">
 </div>
-<div style="height: 70%; display: flex;">
-	<div style="width : 50%; height : 100%; text-align: center; padding: 1%;">
+<div style="height: 65%; display: flex;">
+	<div class="under_div">
 		<div>
 			<img src="/static/img/NShopping.JPG" style="width : 30%;"/>
+			
 		</div>
-		<div id="shoppong_div" style = "overflow: auto; width:93%; height : 60%;  display: inline-block;">
+		<div id="shoppong_div" style = "overflow: auto; width:93%; height : 80%;  display: inline-block;">
 	
 		</div>
 	</div>
 	
-		<div style="width : 50%; height : 100%; text-align: center; padding: 1%; ">
+	<div class="under_div">
 	
 	</div>
 </div>
