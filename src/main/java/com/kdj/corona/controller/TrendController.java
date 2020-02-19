@@ -76,6 +76,7 @@ public class TrendController {
 	    	
 	    	Shopping shopping = Shopping.builder()
 	    						.query("마스크")
+	    						.display(10)
 	    						.build();
 	    	answer = SearchShooping.connectAPI(shopping);
 	    	model.addObject("shopping", answer);

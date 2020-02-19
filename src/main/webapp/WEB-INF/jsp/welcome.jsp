@@ -10,7 +10,7 @@
 	     position: absolute;
 	     width:100%;
 	     height: 100%;
-	     overflow:hidden;
+	     overflow:auto;
 	     margin: 0;
     	 padding: 0;
 	  }
@@ -22,6 +22,9 @@
 		  margin: 10px auto;
 		  display: block;
     }
+    @media (max-width:1023px) {
+	
+	}
 </style>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
@@ -30,11 +33,19 @@
 
 <div id="chart_div" style="height : 30%;">
 </div>
-<div style="width : 50%; height : 100%; text-align: center; ">
-<h3>Naver Shopping</h3>
-<div id="shoppong_div" style = "overflow: auto; height : 60%;">
-
-</div>
+<div style="height: 70%; display: flex;">
+	<div style="width : 50%; height : 100%; text-align: center; padding: 1%;">
+		<div>
+			<img src="/static/img/NShopping.JPG" style="width : 30%;"/>
+		</div>
+		<div id="shoppong_div" style = "overflow: auto; width:93%; height : 60%;  display: inline-block;">
+	
+		</div>
+	</div>
+	
+		<div style="width : 50%; height : 100%; text-align: center; padding: 1%; ">
+	
+	</div>
 </div>
 
 <script type="text/javascript">
@@ -71,7 +82,7 @@
 		var obj = JSON.parse('${trend}');
 		
 		var chart_options = {
-				title : '검색 빈도('+obj.startDate+' ~ '+obj.endDate+')',
+				title : '네이버 검색 빈도('+obj.startDate+' ~ '+obj.endDate+')',
 				width : '100%',
 				bar : {
 					groupWidth : '80%' // 예제에서 이 값을 수정
