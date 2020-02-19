@@ -81,28 +81,63 @@
 				isStacked : false // 그래프 쌓기(스택), 기본값은 false
 			};
 		
-		var yAxis = obj.results[0].data.length;
-		var results = obj.results;
+  		var results = obj.results;
 		var date;
-		arr = new Array(yAxis);
+		var map = new Map();
+		var str;
+		
+		date = obj.startDate.split('-');
+		var startDate = new Date(date[0],date[1]-1,date[2]);
+		date = obj.endDate.split('-');
+		var endDate = new Date(date[0],date[1]-1,date[2]);
+		
+		
+		var diff = Math.abs(startDate.getTime() - endDate.getTime());
+	    diff = Math.ceil(diff / (1000 * 3600 * 24));
+
+		arr = new Array(diff+1);
 		
 		arr[0] = new Array(results.length+1);
 		arr[0][0] = 'Date';
+		console.log(diff);
 		
-		for(var j=1; j<yAxis+1; j++){ //날짜 입력.
+		date = (startDate.getMonth()+1)+'-'+startDate.getDate();
+		map.set(date,new Array(results.length));
+		arr[1] = new Array(results.length+1);
+		arr[1][0] = date;
+		
+		for(var j=2; j<diff+1; j++){ //날짜 입력. 
+			startDate.setDate(startDate.getDate()+1);
+			date = (startDate.getMonth()+1)+'-'+startDate.getDate();
+			map.set(date, new Array(results.length));
 			arr[j] = new Array(results.length+1);
-			date = results[0].data[j-1].period.split('-');
-			arr[j][0] = date[1]+'-'+date[2];
+			arr[j][0] = date;
 		}
 		
-		for(var i=0; i<results.length; i++){ // 값 입력.
+		
+		for(var i=0; i<results.length; i++){ // 값 입력. 날짜에 맞게 입력하기 위해 맵 사용.
 			arr[0][i+1] = results[i].title;
 			var data = results[i].data;
 			for(var j=0; j<data.length; j++){
-				arr[j+1][i+1] = data[j].ratio;
+				str = data[j].period.split('-');
+				date = new Date(str[0],str[1]-1,str[2]);
+				str = (date.getMonth()+1)+'-'+date.getDate();
+				
+				map.get(str)[i]=data[j].ratio;
 			}
 		}
 		
+		var i=1;
+		for(let u of map.keys()){
+			var tmpArr = map.get(u);
+		    for(var j=0; j<tmpArr.length; j++){
+		    	arr[i][j+1] = tmpArr[j];
+		    }
+		    i++;
+		}
+		
+		
+		console.log(arr);
 		var data = new google.visualization.arrayToDataTable(arr);
 		var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
 		chart.draw(data, chart_options);
