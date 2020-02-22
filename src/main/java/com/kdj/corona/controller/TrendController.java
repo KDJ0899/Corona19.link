@@ -26,7 +26,7 @@ public class TrendController {
 			
 			ModelAndView model = new ModelAndView();
 			
-			model.setViewName("welcome");
+			model.setViewName("trend");
 	
 	        List<String> keywords = new ArrayList<String>();
 	        List<String> keywords2 = new ArrayList<String>();
