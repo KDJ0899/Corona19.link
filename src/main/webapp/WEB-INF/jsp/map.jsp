@@ -41,11 +41,13 @@ var mapOptions = {
     center: new naver.maps.LatLng(37.3595704, 127.105399),
     zoom: 10
 };
+
 var data = ${obj};
 
 var map = new naver.maps.Map('map', mapOptions);
 var markers = [];
 var infoWindows = [];
+
 for(var i=0; i<data.length; i++){
 	var marker = new naver.maps.Marker({
 	    position: new naver.maps.LatLng(data[i].latitude, data[i].longitude),
@@ -55,12 +57,14 @@ for(var i=0; i<data.length; i++){
 	    },
 	    
 	});
+	
 	var contentString = [
         '<div>',
         '   <p>'+data[i].number+'번째 확진자</p>',
         '   <p>'+data[i].content+'</p>',
         '</div>'
     ].join('');
+	
 	var infowindow = new naver.maps.InfoWindow({
 	    content: contentString
 	});
@@ -75,6 +79,7 @@ for (var i=0; i<markers.length; i++) {
 
 function getClickHandler(seq) {
     return function(e) {
+    	
         var marker = markers[seq],
         infoWindow = infoWindows[seq];
         
