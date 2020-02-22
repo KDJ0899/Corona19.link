@@ -60,10 +60,9 @@
 <script type="text/javascript">
 	google.charts.load('current', {'packages':['corechart']});
 	google.charts.setOnLoadCallback(drawChart);
-	
+
 	showShoppingInfo();
 
-	
 	function showShoppingInfo(){
 		var obj = JSON.parse('${shopping}');
 		
