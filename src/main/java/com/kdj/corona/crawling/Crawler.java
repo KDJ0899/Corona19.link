@@ -36,39 +36,45 @@ public class Crawler {
 		// ==>원하는 값들이 들어있는 덩어리를 가져온다
 		if (doc != null) {
 			Elements element = doc.select("div.bv_content"); 
+			Iterator<Element> nowStatus = null;
+			String str ="";
 		  
 		    //Iterator을 사용하여 하나씩 값 가져오기
 		    //덩어리안에서 필요한부분만 선택하여 가져올 수 있다.
 		    Iterator<Element> ie1 = element.select("ul.s_listin_dot").iterator();
 		    Iterator<Element> ie2 = element.select("p.s_descript").iterator();
-
-	    	Iterator<Element> nowStatus = ie1.next().select("li").iterator();
-	    	String str = ie2.next().text();
+		   
+		    if(ie1.hasNext())
+		    	nowStatus = ie1.next().select("li").iterator();
+		    if(ie2.hasNext()) {
+		    	str= ie2.next().text();
 	    	
-	    	String[] strs = str.split("\\(");
-	    	strs = strs[1].split(" 기준");
-	    	String time = strs[0];
-	    	
-	    	List<String> list = new ArrayList<String>();
-	    	while(nowStatus.hasNext()) {
-	    		strs=nowStatus.next().text().split("\\) ");
-	    		strs = strs[1].split("명");
-	    		System.out.println(strs[0]);
-	    		list.add(strs[0]);
-	    	}
-	    	
-	    	int quarantinedPatient = Integer.parseInt(list.get(0));
-	    	int treatedPatient = Integer.parseInt(list.get(1));
-	    	int deceasedPerson = Integer.parseInt(list.get(2));
-	    	int inspecting = Integer.parseInt(list.get(3));
-	    	
-	    	status = Status.builder()
-	    			.quarantinedPatient(quarantinedPatient)
-	    			.treatedPatient(treatedPatient)
-	    			.deceasedPerson(deceasedPerson)
-	    			.inspecting(inspecting)
-					.date(time)
+		    	String[] strs = str.split("\\(");
+		    	strs = strs[1].split(" 기준");
+		    	String time = strs[0];
+		    	
+		    	List<String> list = new ArrayList<String>();
+		    	while(nowStatus.hasNext()) {
+		    		strs=nowStatus.next().text().split("\\) ");
+		    		strs = strs[1].split("명");
+		    		strs[0] = strs[0].replace(",", "");
+		    		System.out.println(strs[0]);
+		    		list.add(strs[0]);
+		    	}
+		    	
+		    	int quarantinedPatient = Integer.parseInt(list.get(0));
+		    	int treatedPatient = Integer.parseInt(list.get(1));
+		    	int deceasedPerson = Integer.parseInt(list.get(2));
+		    	int inspecting = Integer.parseInt(list.get(3));
+		    	
+		    	status = Status.builder()
+		    			.quarantinedPatient(quarantinedPatient)
+		    			.treatedPatient(treatedPatient)
+		    			.deceasedPerson(deceasedPerson)
+		    			.inspecting(inspecting)
+						.date(time)
 					.build();
+		    }
     	}
     	Gson gson = new Gson();
     	answer = gson.toJson(status);

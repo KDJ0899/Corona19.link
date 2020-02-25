@@ -53,7 +53,9 @@
 	</div>
 	
 	<div class="under_div">
-	
+		<div id="status_div" style = "width:100%; height : 80%;  display: inline-block;">
+			
+		</div>
 	</div>
 </div>
 
@@ -62,7 +64,25 @@
 	google.charts.setOnLoadCallback(drawChart);
 
 	showShoppingInfo();
-
+	showStatusInfo();
+	
+	
+	function showStatusInfo(){
+		var obj = JSON.parse('${status}');
+		var div = document.getElementById('status_div');
+		var text = "";
+	
+		text += '<h3> 코로나바이러스감염증-19 국내 발생 현황 ( '+obj.date+' )</h3>'+
+		'<ul>'+
+		'<li>확진 환자 : '+obj.quarantinedPatient+'</li>'+
+		'<li>격리 해제된 환자  : '+obj.treatedPatient+'</li>'+
+		'<li>사망자 : '+obj.deceasedPerson+'</li>'+
+		'<li>검사 진행 : '+obj.inspecting+'</li>'+
+		'</ul>';
+		
+		div.innerHTML = text;
+		
+	}
 	function showShoppingInfo(){
 		var obj = JSON.parse('${shopping}');
 		
