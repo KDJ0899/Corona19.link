@@ -42,6 +42,8 @@ dependencies {
 	compile 'javax.servlet:jstl:1.2'
 	//jsoup
     compile 'org.jsoup:jsoup:1.11.3'
+    //MariaDB
+    compile('org.mariadb.jdbc:mariadb-java-client')
 
 }
 
