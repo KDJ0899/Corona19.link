@@ -41,7 +41,7 @@ dependencies {
 	//jstl
 	compile 'javax.servlet:jstl:1.2'
 	//jsoup
-    compile 'org.jsoup:jsoup:1.12.2'
+    compile 'org.jsoup:jsoup:1.11.3'
 
 }
 
