@@ -9,19 +9,21 @@ import org.jsoup.*;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
+import com.kdj.corona.db.service.StatusService;
 import com.kdj.corona.dto.Status;
 
 public class Crawler {
 	
-	public static String clawling() {
+	public static Status clawling() throws Exception {
 		String url = "http://ncov.mohw.go.kr/bdBoardList_Real.do?brdId=&brdGubun=&ncvContSeq=&contSeq=&board_id=&gubun=";    //크롤링할 url지정
         Document doc = null;        //Document에는 페이지의 전체 소스가 저장된다
         List<Element> result = new ArrayList<Element>();
         Status status = null;
         String answer = "";
- 
+        
 		try {
 
 			doc = Jsoup.connect(url).get();
@@ -76,9 +78,9 @@ public class Crawler {
 					.build();
 		    }
     	}
-    	Gson gson = new Gson();
-    	answer = gson.toJson(status);
-        return answer;
+    	
+		
+        return status;
         
  
 	}
