@@ -17,6 +17,7 @@ import org.springframework.web.client.HttpClientErrorException.Gone;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.kdj.corona.crawling.Crawler;
 import com.kdj.corona.db.service.StatusService;
 import com.kdj.corona.dto.KeyWord;
@@ -35,14 +36,23 @@ public class TrendController {
 
 	@RequestMapping("/")
 	public ModelAndView APIExamDatalabTrend(HttpServletRequest request) throws Exception {
-			
 			ModelAndView model = new ModelAndView();
+			
+			String answer,endDate;
+	    	Gson gson = new Gson();
+	    	SimpleDateFormat dateFormat;
+	    	
+	    	SearchTrend trend;
+	        Shopping shopping;
+	        List<Status> statusList;
+	        List<String> answerList = new ArrayList<String>();
 			
 			model.setViewName("trend");
 	
 	        List<String> keywords = new ArrayList<String>();
 	        List<String> keywords2 = new ArrayList<String>();
 	        List<String> keywords3 = new ArrayList<String>();
+	        
 	        keywords.add("코로나바이러스");
 	        keywords.add("코로나");
 	        keywords2.add("마스크");
@@ -50,12 +60,12 @@ public class TrendController {
 	        keywords2.add("일회용마스크");
 	        keywords3.add("코로나19");
 	        
-	        SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd");
-	        String endDate = format1.format(new Date());
-	        SearchTrend trend = SearchTrend.builder()
+	        dateFormat = new SimpleDateFormat ( "yyyy-MM-dd");
+	        endDate = dateFormat.format(new Date());
+	        trend = SearchTrend.builder()
 	        					.startDate("2020-01-17")
 	        					.endDate(endDate)
-	        					.timeUnit("date")
+	        					.timeUnit("week")
 	        					.keywordGroups(new KeyWord[] {
 	        							KeyWord.builder()
 	        							.groupName("코로나바이러스")
@@ -75,12 +85,12 @@ public class TrendController {
 	        					.gender("")
 	        					.build();
 	        
-	        String answer = DatalabSearch.connectAPI(trend);       
+	        answer = DatalabSearch.connectAPI(trend);       
 	        
 	    	model.addObject("trend",answer);
 	    	
 	    	
-	    	Shopping shopping = Shopping.builder()
+	    	shopping = Shopping.builder()
 	    						.query("코로나")
 	    						.display(10)
 	    						.build();
@@ -88,21 +98,16 @@ public class TrendController {
 	    	model.addObject("shopping", answer);
 	    	System.out.println(answer);
 	    	
-//	    	Status status = Crawler.clawling();
-	    	
-//	    	statusService.insert(status);
-	    	
-	    	List<Status> list = statusService.getAll();
-	    	
-	    	if(list.size()>0) {
-		    	Gson gson = new Gson();
+	    	statusList = statusService.getAll();
+	    
+	    	for(int i=0; i<statusList.size(); i++){
 		    	
-		    	answer = gson.toJson(list.get(0));
-		    	
-		    	model.addObject("status", answer);
+		    	answer = gson.toJson(statusList.get(i));
+		    	answerList.add(answer);
 	    	}
 	    	
-	    	System.out.println(list.get(0).getQuarantinedPatient());
+	    	model.addObject("status", answerList);
+	    	System.out.println(statusList.get(0).getQuarantinedPatient());
 	    	
 	    return model;
 	}

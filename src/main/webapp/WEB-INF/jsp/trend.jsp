@@ -14,6 +14,7 @@
 	    overflow:auto;
 	    margin: 0;
     	padding: 0;
+    	text-align: center; 
 	 }
 	.button{
 		border-color: #DDDDDD;
@@ -29,6 +30,15 @@
 	    text-align: center; 
 	    padding: 1%;
     }
+    .left_td{
+    	width : 25%;
+    }
+    .date{
+    	font-size: 25px;
+    }
+    .red{
+    	color: red;
+    }
     
     @media (max-width:1023px) {
 	
@@ -37,12 +47,15 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
-
-
-<div id="chart_div" style="height : 30%;">
-</div>
-<div style="height: 65%; display: flex;">
-	<div class="under_div">
+<div style = "width:70%; display: inline-block;">
+	<div>
+		<div id="status_div" style = "width:100%; height : 100%; margin-bottom: 5%;">
+				
+		</div>
+		<div id="chart_div" style="height : 100%; width: 100%">
+		</div>
+	</div>
+	<%--<div style="height: 65%; display: flex;">
 		<div>
 			<img src="/static/img/NShopping.JPG" style="width : 30%;"/>
 			
@@ -50,35 +63,42 @@
 		<div id="shoppong_div" style = "overflow: auto; width:93%; height : 80%;  display: inline-block;">
 	
 		</div>
-	</div>
-	
-	<div class="under_div">
-		<div id="status_div" style = "width:100%; height : 80%;  display: inline-block;">
-			
-		</div>
-	</div>
+	</div> --%>
 </div>
 
 <script type="text/javascript">
 	google.charts.load('current', {'packages':['corechart']});
 	google.charts.setOnLoadCallback(drawChart);
 
-	showShoppingInfo();
+	//showShoppingInfo();
 	showStatusInfo();
 	
 	
 	function showStatusInfo(){
-		var obj = JSON.parse('${status}');
+		var list = JSON.parse('${status}');
+		var obj1 = list[0];
+		var obj2 = list[1];
 		var div = document.getElementById('status_div');
 		var text = "";
 	
-		text += '<h3> 코로나바이러스감염증-19 국내 발생 현황 ( '+obj.date+' )</h3>'+
-		'<ul>'+
-		'<li>확진 환자 : '+obj.quarantinedPatient+'</li>'+
-		'<li>격리 해제된 환자  : '+obj.treatedPatient+'</li>'+
-		'<li>사망자 : '+obj.deceasedPerson+'</li>'+
-		'<li>검사 진행 : '+obj.inspecting+'</li>'+
-		'</ul>';
+		text += '<h2> 코로나바이러스감염증-19 국내 발생 현황 </h2>'+
+		'<table style="width:100%; border-spacing:10px;">'+
+		'<tr>'+
+		'<td class = "left_td"></td>'+'<td class="date"><b>'+obj2.date+'</b></td>'+'<td class="date"><b>'+obj1.date+'</b></td>'+
+		'</tr>'+
+		'<tr>'+
+		'<td class = "left_td">확진환자</td>'+'<td>'+obj2.quarantinedPatient+'</td>'+'<td>'+obj1.quarantinedPatient+'<b class="red"> (+'+(obj1.quarantinedPatient-obj2.quarantinedPatient)+')</b></td>'+
+		'</tr>'+
+		'<tr>'+
+		'<td class = "left_td">격리 해제된 환자</td>'+'<td>'+obj2.treatedPatient+'</td>'+'<td>'+obj1.treatedPatient+'<b class="red"> (+'+(obj1.treatedPatient-obj2.treatedPatient)+')</b></td>'+
+		'</tr>'+
+		'<tr>'+
+		'<td class = "left_td">사망자</td>'+'<td>'+obj2.deceasedPerson+'</td>'+'<td>'+obj1.deceasedPerson+'<b class="red"> (+'+(obj1.deceasedPerson-obj2.deceasedPerson)+')</b></td>'+
+		'</tr>'+
+		'<tr>'+
+		'<td class = "left_td">검사 진행</td>'+'<td>'+obj2.inspecting+'</td>'+'<td>'+obj1.inspecting+'<b class="red"> (+'+(obj1.inspecting-obj2.inspecting)+')</b></td>'+
+		'</tr>'+
+		'</table>';
 		
 		div.innerHTML = text;
 		
@@ -110,7 +130,7 @@
 		var obj = JSON.parse('${trend}');
 		
 		var chart_options = {
-				title : '네이버 검색 빈도('+obj.startDate+' ~ '+obj.endDate+')',
+				title : '네이버 키워드 검색 빈도 ('+obj.startDate+' ~ '+obj.endDate+')',
 				width : '100%',
 				bar : {
 					groupWidth : '80%' // 예제에서 이 값을 수정
@@ -132,9 +152,9 @@
 		
 		
 		var diff = Math.abs(startDate.getTime() - endDate.getTime());
-	    diff = Math.ceil(diff / (1000 * 3600 * 24));
+	    diff = Math.ceil(diff / (1000 * 3600 * 24*7));
 
-		arr = new Array(diff+1);
+		arr = new Array(diff);
 		
 		arr[0] = new Array(results.length+1);
 		arr[0][0] = 'Date';
@@ -146,7 +166,7 @@
 		arr[1][0] = date;
 		
 		for(var j=2; j<diff+1; j++){ //날짜 입력. 
-			startDate.setDate(startDate.getDate()+1);
+			startDate.setDate(startDate.getDate()+7);
 			date = (startDate.getMonth()+1)+'-'+startDate.getDate();
 			map.set(date, new Array(results.length));
 			arr[j] = new Array(results.length+1);
