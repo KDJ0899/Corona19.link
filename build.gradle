@@ -23,7 +23,7 @@ repositories {
 }
 
 dependencies {
-	// implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	//implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -43,7 +43,11 @@ dependencies {
 	//jsoup
     compile 'org.jsoup:jsoup:1.11.3'
     //MariaDB
-    compile('org.mariadb.jdbc:mariadb-java-client')
+    compile 'org.mariadb.jdbc:mariadb-java-client'
+    
+    compile 'org.springframework.boot:spring-boot-starter-jdbc'
+    //MyBatis
+    compile 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0'
 
 }
 
