@@ -52,6 +52,8 @@
 		<div id="status_div" style = "width:100%; height : 100%; margin-bottom: 5%;">
 				
 		</div>
+		<div id="status_chart_div">
+		</div>
 		<div id="chart_div" style="height : 100%; width: 100%">
 		</div>
 	</div>
@@ -69,6 +71,7 @@
 <script type="text/javascript">
 	google.charts.load('current', {'packages':['corechart']});
 	google.charts.setOnLoadCallback(drawChart);
+	google.charts.setOnLoadCallback(drawStatusChart);
 
 	//showShoppingInfo();
 	showStatusInfo();
@@ -103,6 +106,51 @@
 		div.innerHTML = text;
 		
 	}
+	function drawStatusChart(){
+		
+		var list = JSON.parse('${status}');
+		var arr = [[],[]];
+		
+		var chart_options = {
+				title : '환자 수 병동 그래프',
+				width : '100%',
+				bar : {
+					groupWidth : '80%' // 예제에서 이 값을 수정
+				},
+				seriesType : 'line',
+				series : {3 : {type : 'line'}}, // 데이터에서 라인그래프로 만들값을 지정, 3은 순서를 의미하며 0부터 시작
+				isStacked : false // 그래프 쌓기(스택), 기본값은 false
+			};
+
+		arr = new Array(list.length+1);
+		
+		arr[0] = new Array(5);
+		arr[0][0] = 'Date';
+		arr[0][1] = '확진환자';
+		arr[0][2] = '격리 해제된 환자';
+		arr[0][3] = '사망자';
+		arr[0][4] = '검사 진행';
+		var index = 1;
+		console.log(list);
+		for(var i=list.length-1; i>=0; i--){ //날짜 입력. 
+			arr[index] = new Array(5);
+			var obj = list[i];
+			arr[index][0] = obj.date;
+			arr[index][1] = obj.quarantinedPatient;
+			arr[index][2] = obj.treatedPatient;
+			arr[index][3] = obj.deceasedPerson;
+			arr[index][4] = obj.inspecting;
+			
+			index++;
+
+		}
+		
+		console.log(arr);
+		var data = new google.visualization.arrayToDataTable(arr);
+		var chart = new google.visualization.ComboChart(document.getElementById('status_chart_div'));
+		chart.draw(data, chart_options);
+		window.addEventListener('resize', function() { chart.draw(data, chart_options); }, false);
+	}
 	function showShoppingInfo(){
 		var obj = JSON.parse('${shopping}');
 		
@@ -122,6 +170,8 @@
 			'</div>';
 		}
 		div.innerHTML = text;
+		
+		
 	}
 	
 	function drawChart(){
