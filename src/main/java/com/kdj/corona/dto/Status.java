@@ -14,6 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class Status {
+	private int id;
 	private int quarantinedPatient;
 	private int treatedPatient;
 	private int deceasedPerson;

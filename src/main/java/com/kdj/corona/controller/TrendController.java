@@ -10,11 +10,15 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.jsoup.nodes.Element;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.HttpClientErrorException.Gone;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kdj.corona.crawling.Crawler;
+import com.kdj.corona.db.service.StatusService;
 import com.kdj.corona.dto.KeyWord;
 import com.kdj.corona.dto.SearchTrend;
 import com.kdj.corona.dto.Shopping;
@@ -25,9 +29,12 @@ import com.kdj.corona.navarAPI.SearchShooping;
 @Controller
 @RequestMapping("trend")
 public class TrendController {
+	
+	@Autowired
+    StatusService statusService;
 
 	@RequestMapping("/")
-	public ModelAndView APIExamDatalabTrend(HttpServletRequest request) {
+	public ModelAndView APIExamDatalabTrend(HttpServletRequest request) throws Exception {
 			
 			ModelAndView model = new ModelAndView();
 			
@@ -81,9 +88,21 @@ public class TrendController {
 	    	model.addObject("shopping", answer);
 	    	System.out.println(answer);
 	    	
-	    	answer = Crawler.clawling();
-	    	System.out.println(answer);
-	    	model.addObject("status", answer);
+//	    	Status status = Crawler.clawling();
+	    	
+//	    	statusService.insert(status);
+	    	
+	    	List<Status> list = statusService.getAll();
+	    	
+	    	if(list.size()>0) {
+		    	Gson gson = new Gson();
+		    	
+		    	answer = gson.toJson(list.get(0));
+		    	
+		    	model.addObject("status", answer);
+	    	}
+	    	
+	    	System.out.println(list.get(0).getQuarantinedPatient());
 	    	
 	    return model;
 	}
