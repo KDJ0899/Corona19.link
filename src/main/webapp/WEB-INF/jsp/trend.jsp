@@ -192,9 +192,13 @@
 			};
 		
   		var results = obj.results;
-		var date;
+		var date, str, dateType;
 		var map = new Map();
-		var str;
+		
+		if(obj.timeUnit == "date") 
+			dateType = 1;
+		else if(obj.timeUnit == "week")
+			dateType = 7;
 		
 		date = obj.startDate.split('-');
 		var startDate = new Date(date[0],date[1]-1,date[2]);
@@ -203,7 +207,7 @@
 		
 		
 		var diff = Math.abs(startDate.getTime() - endDate.getTime());
-	    diff = Math.ceil(diff / (1000 * 3600 * 24*7));
+	    diff = Math.ceil(diff / (1000 * 3600 * 24*dateType));
 
 		arr = new Array(diff);
 		
@@ -217,7 +221,7 @@
 		arr[1][0] = date;
 		
 		for(var j=2; j<diff+1; j++){ //날짜 입력. 
-			startDate.setDate(startDate.getDate()+7);
+			startDate.setDate(startDate.getDate()+dateType);
 			date = (startDate.getMonth()+1)+'-'+startDate.getDate();
 			map.set(date, new Array(results.length));
 			arr[j] = new Array(results.length+1);
@@ -232,7 +236,7 @@
 				str = data[j].period.split('-');
 				date = new Date(str[0],str[1]-1,str[2]);
 				str = (date.getMonth()+1)+'-'+date.getDate();
-				
+				console.log(str);
 				map.get(str)[i]=data[j].ratio;
 			}
 		}

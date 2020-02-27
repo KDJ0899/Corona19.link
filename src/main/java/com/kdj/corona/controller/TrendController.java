@@ -61,25 +61,18 @@ public class TrendController {
 	        
 	        keywords.add("코로나바이러스");
 	        keywords.add("코로나");
-	        keywords2.add("마스크");
-	        keywords2.add("KF94마스크");
-	        keywords2.add("일회용마스크");
 	        keywords3.add("코로나19");
 	        
 	        dateFormat = new SimpleDateFormat ( "yyyy-MM-dd");
 	        endDate = dateFormat.format(new Date());
 	        trend = SearchTrend.builder()
-	        					.startDate("2020-01-17")
+	        					.startDate("2020-01-19")
 	        					.endDate(endDate)
-	        					.timeUnit("week")
+	        					.timeUnit("date") // date or week 만 가능.
 	        					.keywordGroups(new KeyWord[] {
 	        							KeyWord.builder()
 	        							.groupName("코로나바이러스")
 	        							.keywords(keywords)
-	        							.build(),
-	        							KeyWord.builder()
-	        							.groupName("마스크")
-	        							.keywords(keywords2)
 	        							.build(),
 	        							KeyWord.builder()
 	        							.groupName("코로나19")
