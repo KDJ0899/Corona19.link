@@ -3,6 +3,7 @@ package com.kdj.corona.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -44,9 +45,14 @@ public class TrendController {
 	    	
 	    	SearchTrend trend;
 	        Shopping shopping;
+	        Status status;
 	        List<Status> statusList;
 	        List<String> answerList = new ArrayList<String>();
-			
+	        List<Integer> quarantinedPatients = new ArrayList<Integer>();
+	        List<Integer> treatedPatients = new ArrayList<Integer>();
+	        List<Integer> deceasedPersons = new ArrayList<Integer>();
+	        List<Integer> inspectings = new ArrayList<Integer>();
+	        
 			model.setViewName("trend");
 	
 	        List<String> keywords = new ArrayList<String>();
@@ -101,12 +107,30 @@ public class TrendController {
 	    	statusList = statusService.getAll();
 	    
 	    	for(int i=0; i<statusList.size(); i++){
-		    	
-		    	answer = gson.toJson(statusList.get(i));
+	    		status = statusList.get(i);
+	    		
+	    		quarantinedPatients.add(status.getQuarantinedPatient());
+	    		treatedPatients.add(status.getTreatedPatient());
+	    		deceasedPersons.add(status.getDeceasedPerson());
+	    		inspectings.add(status.getInspecting());
+	    		
+		    	answer = gson.toJson(status);
 		    	answerList.add(answer);
 	    	}
+	    	quarantinedPatients.sort(Comparator.reverseOrder());
+	    	treatedPatients.sort(Comparator.reverseOrder());
+	    	deceasedPersons.sort(Comparator.reverseOrder());
+	    	inspectings.sort(Comparator.reverseOrder());
+	    	
+	    	status = Status.builder()
+	    			.quarantinedPatient(quarantinedPatients.get(0))
+	    			.treatedPatient(treatedPatients.get(0))
+	    			.deceasedPerson(deceasedPersons.get(0))
+	    			.inspecting(inspectings.get(0))
+	    			.build();
 	    	
 	    	model.addObject("status", answerList);
+	    	model.addObject("statusMax", gson.toJson(status));
 	    	System.out.println(statusList.get(0).getQuarantinedPatient());
 	    	
 	    return model;

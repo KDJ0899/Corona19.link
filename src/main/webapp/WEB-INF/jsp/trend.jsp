@@ -49,12 +49,12 @@
 <body>
 <div style = "width:70%; display: inline-block;">
 	<div>
-		<div id="status_div" style = "width:100%; height : 100%; margin-bottom: 5%;">
+		<div id="status_div" style = "margin-bottom: 5%;">
 				
 		</div>
-		<div id="status_chart_div">
+		<div id="status_chart_div" style="margin-bottom: 5%;">
 		</div>
-		<div id="chart_div" style="height : 100%; width: 100%">
+		<div id="chart_div" style="">
 		</div>
 	</div>
 	<%--<div style="height: 65%; display: flex;">
@@ -109,10 +109,11 @@
 	function drawStatusChart(){
 		
 		var list = JSON.parse('${status}');
+		var statusMax = JSON.parse('${statusMax}');
 		var arr = [[],[]];
 		
 		var chart_options = {
-				title : '환자 수 병동 그래프',
+				title : '환자 현황 그래프',
 				width : '100%',
 				bar : {
 					groupWidth : '80%' // 예제에서 이 값을 수정
@@ -136,10 +137,10 @@
 			arr[index] = new Array(5);
 			var obj = list[i];
 			arr[index][0] = obj.date;
-			arr[index][1] = obj.quarantinedPatient;
-			arr[index][2] = obj.treatedPatient;
-			arr[index][3] = obj.deceasedPerson;
-			arr[index][4] = obj.inspecting;
+			arr[index][1] = obj.quarantinedPatient/statusMax.quarantinedPatient*100;
+			arr[index][2] = obj.treatedPatient/statusMax.treatedPatient*100;
+			arr[index][3] = obj.deceasedPerson/statusMax.deceasedPerson*100;
+			arr[index][4] = obj.inspecting/statusMax.inspecting*100;
 			
 			index++;
 
