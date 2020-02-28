@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Shopping {
+public class SearchForm {
 	@NonNull private String query;
 	private int display; //기본값 :10, 최댓값: 100
 	private int start; //기본값 :1 , 최댓값:1000
