@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kdj.corona.db.mapper.StatusMapper">
     <select id="getAll" resultType="com.kdj.corona.dto.Status">
-        select * from status order by date desc
+        select * from status order by quarantinedPatient desc,date desc;
     </select>
     
     <insert id="insert">
