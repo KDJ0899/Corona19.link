@@ -57,10 +57,11 @@
 		
 		<div id="chart_div" style="margin-bottom: 5%;">
 		</div>
+		
 		<div style="width:70%; display: inline-block;">
-		<h2>관련 뉴스</h2>
-		<div id="news_div"  style=" text-align: left;">
-		</div>
+			<h2>관련 뉴스</h2>
+			<div id="news_div"  style=" text-align: left;">
+			</div>
 		</div>
 		
 	</div>
