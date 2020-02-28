@@ -29,7 +29,7 @@ import com.kdj.corona.navarAPI.DatalabSearch;
 import com.kdj.corona.navarAPI.SearchShooping;
 
 @Controller
-@RequestMapping("trend")
+@RequestMapping("")
 public class TrendController {
 	
 	@Autowired
@@ -48,10 +48,7 @@ public class TrendController {
 	        Status status;
 	        List<Status> statusList;
 	        List<String> answerList = new ArrayList<String>();
-	        List<Integer> quarantinedPatients = new ArrayList<Integer>();
-	        List<Integer> treatedPatients = new ArrayList<Integer>();
-	        List<Integer> deceasedPersons = new ArrayList<Integer>();
-	        List<Integer> inspectings = new ArrayList<Integer>();
+	        List<String> graphList = new ArrayList<String>();
 	        
 			model.setViewName("trend");
 	
@@ -98,32 +95,30 @@ public class TrendController {
 	    	System.out.println(answer);
 	    	
 	    	statusList = statusService.getAll();
+	    	
+	    	status=statusList.get(0);
+	    	
+	    	if(status.getDate().contains("09시")) {
+	    		System.out.println("h");
+	    		answer = gson.toJson(status);
+	    		graphList.add(answer);
+	    	}
 	    
 	    	for(int i=0; i<statusList.size(); i++){
 	    		status = statusList.get(i);
 	    		
-	    		quarantinedPatients.add(status.getQuarantinedPatient());
-	    		treatedPatients.add(status.getTreatedPatient());
-	    		deceasedPersons.add(status.getDeceasedPerson());
-	    		inspectings.add(status.getInspecting());
-	    		
 		    	answer = gson.toJson(status);
 		    	answerList.add(answer);
+		    	
+		    	if(status.getDate().contains("16시")) {
+	    			graphList.add(answer);
+	    		}
 	    	}
-	    	quarantinedPatients.sort(Comparator.reverseOrder());
-	    	treatedPatients.sort(Comparator.reverseOrder());
-	    	deceasedPersons.sort(Comparator.reverseOrder());
-	    	inspectings.sort(Comparator.reverseOrder());
 	    	
-	    	status = Status.builder()
-	    			.quarantinedPatient(quarantinedPatients.get(0))
-	    			.treatedPatient(treatedPatients.get(0))
-	    			.deceasedPerson(deceasedPersons.get(0))
-	    			.inspecting(inspectings.get(0))
-	    			.build();
+	    	
 	    	
 	    	model.addObject("status", answerList);
-	    	model.addObject("statusMax", gson.toJson(status));
+	    	model.addObject("graphList", graphList);
 	    	System.out.println(statusList.get(0).getQuarantinedPatient());
 	    	
 	    return model;

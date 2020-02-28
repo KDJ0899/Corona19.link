@@ -47,7 +47,7 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
-<div style = "width:70%; display: inline-block;">
+<div style = "width:90%; display: inline-block;">
 	<div>
 		<div id="status_div" style = "margin-bottom: 5%;">
 				
@@ -83,23 +83,40 @@
 		var obj2 = list[1];
 		var div = document.getElementById('status_div');
 		var text = "";
-	
+		var quarantinedPatient = obj1.quarantinedPatient-obj2.quarantinedPatient;
+		var treatedPatient = obj1.treatedPatient-obj2.treatedPatient;
+		var deceasedPerson = obj1.deceasedPerson-obj2.deceasedPerson;
+		var inspecting = obj1.inspecting-obj2.inspecting;
+		
+		if(obj1.quarantinedPatient-obj2.quarantinedPatient>0){
+			quarantinedPatient = "+"+quarantinedPatient;
+		}
+		if(obj1.treatedPatient-obj2.treatedPatient>=0){
+			treatedPatient = "+"+treatedPatient;
+		}
+		if(obj1.deceasedPerson-obj2.deceasedPerson>=0){
+			deceasedPerson = "+"+deceasedPerson;
+		}
+		if(obj1.inspecting-obj2.inspecting>0){
+			inspecting = "+"+inspecting;
+		}
+		
 		text += '<h2> 코로나바이러스감염증-19 국내 발생 현황 </h2>'+
 		'<table style="width:100%; border-spacing:10px;">'+
 		'<tr>'+
 		'<td class = "left_td"></td>'+'<td class="date"><b>'+obj2.date+'</b></td>'+'<td class="date"><b>'+obj1.date+'</b></td>'+
 		'</tr>'+
 		'<tr>'+
-		'<td class = "left_td">확진환자</td>'+'<td>'+obj2.quarantinedPatient+'</td>'+'<td>'+obj1.quarantinedPatient+'<b class="red"> (+'+(obj1.quarantinedPatient-obj2.quarantinedPatient)+')</b></td>'+
+		'<td class = "left_td">확진환자</td>'+'<td>'+obj2.quarantinedPatient+'</td>'+'<td>'+obj1.quarantinedPatient+'<b class="red"> ('+quarantinedPatient+')</b></td>'+
 		'</tr>'+
 		'<tr>'+
-		'<td class = "left_td">격리 해제된 환자</td>'+'<td>'+obj2.treatedPatient+'</td>'+'<td>'+obj1.treatedPatient+'<b class="red"> (+'+(obj1.treatedPatient-obj2.treatedPatient)+')</b></td>'+
+		'<td class = "left_td">격리 해제된 환자</td>'+'<td>'+obj2.treatedPatient+'</td>'+'<td>'+obj1.treatedPatient+'<b class="red"> ('+treatedPatient+')</b></td>'+
 		'</tr>'+
 		'<tr>'+
-		'<td class = "left_td">사망자</td>'+'<td>'+obj2.deceasedPerson+'</td>'+'<td>'+obj1.deceasedPerson+'<b class="red"> (+'+(obj1.deceasedPerson-obj2.deceasedPerson)+')</b></td>'+
+		'<td class = "left_td">사망자</td>'+'<td>'+obj2.deceasedPerson+'</td>'+'<td>'+obj1.deceasedPerson+'<b class="red"> ('+deceasedPerson+')</b></td>'+
 		'</tr>'+
 		'<tr>'+
-		'<td class = "left_td">검사 진행</td>'+'<td>'+obj2.inspecting+'</td>'+'<td>'+obj1.inspecting+'<b class="red"> (+'+(obj1.inspecting-obj2.inspecting)+')</b></td>'+
+		'<td class = "left_td">검사 진행</td>'+'<td>'+obj2.inspecting+'</td>'+'<td>'+obj1.inspecting+'<b class="red"> ('+inspecting+')</b></td>'+
 		'</tr>'+
 		'</table>';
 		
@@ -108,40 +125,45 @@
 	}
 	function drawStatusChart(){
 		
-		var list = JSON.parse('${status}');
-		var statusMax = JSON.parse('${statusMax}');
+		var list = JSON.parse('${graphList}');
+		var statusMax = list[0];
 		var arr = [[],[]];
-		
+		console.log(statusMax.quarantinedPatient);
 		var chart_options = {
 				title : '환자 현황 그래프',
 				width : '100%',
-				bar : {
-					groupWidth : '80%' // 예제에서 이 값을 수정
-				},
 				seriesType : 'line',
-				series : {3 : {type : 'line'}}, // 데이터에서 라인그래프로 만들값을 지정, 3은 순서를 의미하며 0부터 시작
-				isStacked : false // 그래프 쌓기(스택), 기본값은 false
+				hAxis: { textStyle: {fontSize:12}},
+				annotations    : {
+                    textStyle: {
+                    fontSize: 15,
+                    bold: true,
+                    italic: true,
+                    color: '#871b47',
+                    auraColor: '#d799ae',
+                    opacity: 0.8,
+                    }
+                  }
 			};
 
 		arr = new Array(list.length+1);
 		
-		arr[0] = new Array(5);
+		arr[0] = new Array(4);
 		arr[0][0] = 'Date';
 		arr[0][1] = '확진환자';
-		arr[0][2] = '격리 해제된 환자';
+		arr[0][2] = '격리해제';
 		arr[0][3] = '사망자';
-		arr[0][4] = '검사 진행';
+		
 		var index = 1;
 		console.log(list);
 		for(var i=list.length-1; i>=0; i--){ //날짜 입력. 
-			arr[index] = new Array(5);
+			arr[index] = new Array(4);
 			var obj = list[i];
-			arr[index][0] = obj.date;
+			var date = obj.date.split("일 ");
+			arr[index][0] = date[0];
 			arr[index][1] = obj.quarantinedPatient/statusMax.quarantinedPatient*100;
 			arr[index][2] = obj.treatedPatient/statusMax.treatedPatient*100;
-			arr[index][3] = obj.deceasedPerson/statusMax.deceasedPerson*100;
-			arr[index][4] = obj.inspecting/statusMax.inspecting*100;
-			
+			arr[index][3] = obj.deceasedPerson/statusMax.deceasedPerson*100;			
 			index++;
 
 		}
@@ -152,6 +174,7 @@
 		chart.draw(data, chart_options);
 		window.addEventListener('resize', function() { chart.draw(data, chart_options); }, false);
 	}
+	
 	function showShoppingInfo(){
 		var obj = JSON.parse('${shopping}');
 		
@@ -188,7 +211,7 @@
 				},
 				seriesType : 'bars',
 				series : {3 : {type : 'line'}}, // 데이터에서 라인그래프로 만들값을 지정, 3은 순서를 의미하며 0부터 시작
-				isStacked : false // 그래프 쌓기(스택), 기본값은 false
+				hAxis: { textStyle: {fontSize:12}},
 			};
 		
   		var results = obj.results;
@@ -236,7 +259,6 @@
 				str = data[j].period.split('-');
 				date = new Date(str[0],str[1]-1,str[2]);
 				str = (date.getMonth()+1)+'-'+date.getDate();
-				console.log(str);
 				map.get(str)[i]=data[j].ratio;
 			}
 		}
