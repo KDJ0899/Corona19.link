@@ -10,14 +10,16 @@ import java.net.URLEncoder;
 import org.apache.tomcat.util.buf.Utf8Encoder;
 
 import com.google.gson.Gson;
-import com.kdj.corona.dto.Shopping;
+import com.kdj.corona.dto.SearchForm;
 
-public class SearchShooping extends ApiInfo {
-	static String apiURL = "https://openapi.naver.com/v1/search/shop.json?";
-	public static String connectAPI(Shopping body) {
+public class SearchAPI extends ApiInfo {
+	static String url = "https://openapi.naver.com/v1/search/";
+	public static String shop = "shop";
+	public static String news = "news";
+	public static String connectAPI(SearchForm body,String api) {
         String answer ="";
         String text = "";
-        
+        String apiURL = url+api+".json?";
         try {
         	if(body!=null) {
             	text+="query="+URLEncoder.encode(body.getQuery(),"UTF-8");

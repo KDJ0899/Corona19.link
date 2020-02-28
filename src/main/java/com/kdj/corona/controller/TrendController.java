@@ -23,10 +23,10 @@ import com.kdj.corona.crawling.Crawler;
 import com.kdj.corona.db.service.StatusService;
 import com.kdj.corona.dto.KeyWord;
 import com.kdj.corona.dto.SearchTrend;
-import com.kdj.corona.dto.Shopping;
+import com.kdj.corona.dto.SearchForm;
 import com.kdj.corona.dto.Status;
 import com.kdj.corona.navarAPI.DatalabSearch;
-import com.kdj.corona.navarAPI.SearchShooping;
+import com.kdj.corona.navarAPI.SearchAPI;
 
 @Controller
 @RequestMapping("")
@@ -44,7 +44,7 @@ public class TrendController {
 	    	SimpleDateFormat dateFormat;
 	    	
 	    	SearchTrend trend;
-	        Shopping shopping;
+	        SearchForm searchForm;
 	        Status status;
 	        List<Status> statusList;
 	        List<String> answerList = new ArrayList<String>();
@@ -86,13 +86,12 @@ public class TrendController {
 	    	model.addObject("trend",answer);
 	    	
 	    	
-	    	shopping = Shopping.builder()
+	    	searchForm = SearchForm.builder()
 	    						.query("코로나")
 	    						.display(10)
 	    						.build();
-	    	answer = SearchShooping.connectAPI(shopping);
+	    	answer = SearchAPI.connectAPI(searchForm,SearchAPI.shop);
 	    	model.addObject("shopping", answer);
-	    	System.out.println(answer);
 	    	
 	    	statusList = statusService.getAll();
 	    	
@@ -120,6 +119,26 @@ public class TrendController {
 	    	model.addObject("status", answerList);
 	    	model.addObject("graphList", graphList);
 	    	System.out.println(statusList.get(0).getQuarantinedPatient());
+	    	
+	    	//뉴스 api
+	    	searchForm = SearchForm.builder()
+					.query("확진자 "+statusList.get(0).getQuarantinedPatient()+"명")
+					.display(3)
+					.sort("sim")
+					.build();
+	    	answer = SearchAPI.connectAPI(searchForm,SearchAPI.news);
+	    	model.addObject("news1", answer);
+	    	System.out.println(answer);
+	    	
+	    	searchForm = SearchForm.builder()
+					.query("코로나19")
+					.display(3)
+					.sort("sim")
+					.build();
+	    	answer = SearchAPI.connectAPI(searchForm,SearchAPI.news);
+	    	model.addObject("news2", answer);
+	    	System.out.println(answer);
+
 	    	
 	    return model;
 	}

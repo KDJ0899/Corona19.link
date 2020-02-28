@@ -17,8 +17,8 @@
     	text-align: center; 
 	 }
 	.button{
-		border-color: #DDDDDD;
-		border-width: 1px;
+		border-color: "#DDDDDD";
+		border-bottom:2px solid #DDDDDD;
 		cursor: pointer;
 		color: black;
 		margin: 10px auto;
@@ -47,15 +47,22 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
-<div style = "width:90%; display: inline-block;">
+<div style = "width:90%; display: inline-block; text-align: center;">
 	<div>
 		<div id="status_div" style = "margin-bottom: 5%;">
 				
 		</div>
 		<div id="status_chart_div" style="margin-bottom: 5%;">
 		</div>
-		<div id="chart_div" style="">
+		
+		<div id="chart_div" style="margin-bottom: 5%;">
 		</div>
+		<div>
+		<h2>관련 뉴스</h2>
+		<div id="news_div" style="width:70%; text-align: left; display: inline-block;">
+		</div>
+		</div>
+		
 	</div>
 	<%--<div style="height: 65%; display: flex;">
 		<div>
@@ -75,6 +82,7 @@
 
 	//showShoppingInfo();
 	showStatusInfo();
+	showNewsInfo()
 	
 	
 	function showStatusInfo(){
@@ -197,6 +205,28 @@
 		
 		
 	}
+	
+	function showNewsInfo(){
+		var obj1 = JSON.parse('${news1}');
+		
+		var div = document.getElementById('news_div');
+		var text = "";
+		
+		for(var i=0; i<obj1.items.length; i++){
+			var item = obj1.items[i];
+			text+='<div class="button" onclick="window.open(\''+item.link+'\');">'+
+			'<div style="">'+
+			'<h3>'+item.title+'</h3>'+
+			'<p>'+item.description+'</p>'+
+			'<p>'+item.pubDate+'</p>'+
+			'</div>'+
+			'</div>';
+		}
+		div.innerHTML = text;
+		
+		
+	}
+	
 	
 	function drawChart(){
 		
