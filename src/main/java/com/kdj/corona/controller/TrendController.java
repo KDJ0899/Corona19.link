@@ -99,9 +99,8 @@ public class TrendController {
 	    	
 	    	status=statusList.get(0);
 	    	
-	    	if(status.getDate().contains("09시")) {
+	    	if(!status.getDate().contains("16시")) {
 	    		System.out.println("h");
-	    		status.setDate("2.5'일'");
 	    		answer = gson.toJson(status);
 	    		graphList.add(answer);
 	    		System.out.println(answer);
@@ -131,7 +130,7 @@ public class TrendController {
 					.sort("sim")
 					.build();
 	    	answer = SearchAPI.connectAPI(searchForm,SearchAPI.news);
-	    	News news1 = gson.fromJson(answer, News.class );
+	    	News news = gson.fromJson(answer, News.class );
 	    	
 	    	searchForm = SearchForm.builder()
 					.query("코로나19")
@@ -141,9 +140,9 @@ public class TrendController {
 	    	answer = SearchAPI.connectAPI(searchForm,SearchAPI.news);
 	    	News news2 = gson.fromJson(answer, News.class );
 	    	
-	    	news1.getItems().addAll(news2.getItems());
-	    	answer = gson.toJson(news1.getItems());
-	    	model.addObject("news1", answer);
+	    	news.getItems().addAll(news2.getItems());
+	    	answer = gson.toJson(news.getItems());
+	    	model.addObject("news", answer);
 	    	System.out.println(answer);
 
 	    	
