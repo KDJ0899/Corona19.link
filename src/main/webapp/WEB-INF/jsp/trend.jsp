@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <link rel= "stylesheet" type="text/css" href="/static/css/trend.css">
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript" src="/static/js/test.js"></script>
+<script type="text/javascript" src="/static/js/trend.js"></script>
 </head>
 <body>
 <div style = "width:90%; display: inline-block; text-align: center;">
@@ -64,16 +64,7 @@ function drawStatusChart() {
 		width: '100%',
 		seriesType: 'line',
 		hAxis: { textStyle: { fontSize: 12 } },
-		annotations: {
-			textStyle: {
-				fontSize: 15,
-				bold: true,
-				italic: true,
-				color: '#871b47',
-				auraColor: '#d799ae',
-				opacity: 0.8,
-			}
-		}
+		titleTextStyle: {fontSize: 20}
 	};
 
 	arr = new Array(graphList.length + 1);
@@ -117,6 +108,7 @@ function drawChart() {
 		seriesType: 'bars',
 		series: { 3: { type: 'line' } }, // 데이터에서 라인그래프로 만들값을 지정, 3은 순서를 의미하며 0부터 시작
 		hAxis: { textStyle: { fontSize: 12 } },
+		titleTextStyle: {fontSize: 20}
 	};
 
 	var results = trendObj.results;

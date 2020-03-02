@@ -24,21 +24,21 @@ function showStatusInfo(statusList) {
 	}
 
 	text += '<h2> 코로나바이러스감염증-19 국내 발생 현황 </h2>' +
-		'<table style="width:100%; border-spacing:10px;">' +
+		'<table style="width:100%; border-spacing:10px; font-size:18px;">' +
 		'<tr>' +
 		'<td class = "left_td"></td>' + '<td class="date"><b>' + obj2.date + '</b></td>' + '<td class="date"><b>' + obj1.date + '</b></td>' +
 		'</tr>' +
 		'<tr>' +
-		'<td class = "left_td">확진환자</td>' + '<td>' + obj2.quarantinedPatient + '</td>' + '<td>' + obj1.quarantinedPatient + '<b class="red"> (' + quarantinedPatient + ')</b></td>' +
+		'<td class = "left_td"><b>확진환자</b></td>' + '<td>' + obj2.quarantinedPatient + '</td>' + '<td>' + obj1.quarantinedPatient + '<b class="red"> (' + quarantinedPatient + ')</b></td>' +
 		'</tr>' +
 		'<tr>' +
-		'<td class = "left_td">격리 해제된 환자</td>' + '<td>' + obj2.treatedPatient + '</td>' + '<td>' + obj1.treatedPatient + '<b class="red"> (' + treatedPatient + ')</b></td>' +
+		'<td class = "left_td"><b>격리 해제된 환자</b></td>' + '<td>' + obj2.treatedPatient + '</td>' + '<td>' + obj1.treatedPatient + '<b class="red"> (' + treatedPatient + ')</b></td>' +
 		'</tr>' +
 		'<tr>' +
-		'<td class = "left_td">사망자</td>' + '<td>' + obj2.deceasedPerson + '</td>' + '<td>' + obj1.deceasedPerson + '<b class="red"> (' + deceasedPerson + ')</b></td>' +
+		'<td class = "left_td"><b>사망자</b></td>' + '<td>' + obj2.deceasedPerson + '</td>' + '<td>' + obj1.deceasedPerson + '<b class="red"> (' + deceasedPerson + ')</b></td>' +
 		'</tr>' +
 		'<tr>' +
-		'<td class = "left_td">검사 진행</td>' + '<td>' + obj2.inspecting + '</td>' + '<td>' + obj1.inspecting + '<b class="red"> (' + inspecting + ')</b></td>' +
+		'<td class = "left_td"><b>검사 진행</b></td>' + '<td>' + obj2.inspecting + '</td>' + '<td>' + obj1.inspecting + '<b class="red"> (' + inspecting + ')</b></td>' +
 		'</tr>' +
 		'</table>';
 

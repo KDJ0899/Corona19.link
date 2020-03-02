@@ -21,10 +21,11 @@ html, body {
 	    padding: 1%;
     }
     .left_td{
-    	width : 25%;
+			width : 25%;
+			font-size: 20px;
     }
     .date{
-    	font-size: 25px;
+    	font-size: 30px;
     }
     .red{
     	color: red;
