@@ -1,5 +1,6 @@
 package com.kdj.corona.crawling;
 
+import java.io.Console;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -11,18 +12,50 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.google.gson.Gson;
 import com.kdj.corona.db.service.StatusService;
 import com.kdj.corona.dto.Status;
 
-public class Crawler {
+public class Crawler implements Runnable {
+
+	@Autowired
+    StatusService statusService;
 	
-	public static Status clawling() throws Exception {
-		String url = "http://ncov.mohw.go.kr/bdBoardList_Real.do?brdId=&brdGubun=&ncvContSeq=&contSeq=&board_id=&gubun=";    //크롤링할 url지정
+	public void run() {
+		while(true) {
+			try {
+				System.out.println("here");
+				Status status = clawling();
+				
+				System.out.println(status.getDate());
+				
+				List<Status> list;
+
+				list = statusService.getAll();
+				System.out.println(list.get(0).getDate());
+				
+				
+				if(!status.getDate().equals(list.get(0).getDate()))
+					System.out.println(statusService.insert(status));
+				
+				Thread.sleep(10000);
+			
+			} catch (Exception e) {
+				e.printStackTrace();
+				try {
+					Thread.sleep(10000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		}
+		
+	}
+	
+	public Status clawling() {
+		String url = "http://ncov.mohw.go.kr/bdBoardList_Real.do?brdId=1&brdGubun=11&ncvContSeq=&contSeq=&board_id=&gubun=";    //크롤링할 url지정
         Document doc = null;        //Document에는 페이지의 전체 소스가 저장된다
-        List<Element> result = new ArrayList<Element>();
         Status status = null;
-        String answer = "";
         
 		try {
 
@@ -43,11 +76,12 @@ public class Crawler {
 		  
 		    //Iterator을 사용하여 하나씩 값 가져오기
 		    //덩어리안에서 필요한부분만 선택하여 가져올 수 있다.
-		    Iterator<Element> ie1 = element.select("ul.s_listin_dot").iterator();
+		    Iterator<Element> ie1 = element.select("table.num tbody").iterator();
 		    Iterator<Element> ie2 = element.select("p.s_descript").iterator();
 		   
-		    if(ie1.hasNext())
-		    	nowStatus = ie1.next().select("li").iterator();
+		    if(ie1.hasNext()) {
+		    	nowStatus = ie1.next().select("td").iterator();
+		    }
 		    if(ie2.hasNext()) {
 		    	str= ie2.next().text();
 	    	
@@ -57,10 +91,9 @@ public class Crawler {
 		    	
 		    	List<String> list = new ArrayList<String>();
 		    	while(nowStatus.hasNext()) {
-		    		strs=nowStatus.next().text().split("\\) ");
-		    		strs = strs[1].split("명");
+		    		strs=nowStatus.next().text().split("명");
 		    		strs[0] = strs[0].replace(",", "");
-		    		System.out.println(strs[0]);
+		    		strs[0] = strs[0].replace(" ", "");
 		    		list.add(strs[0]);
 		    	}
 		    	
