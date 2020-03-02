@@ -1,12 +1,12 @@
 package com.kdj.corona.crawling;
 
-import java.io.Console;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.jsoup.*;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -23,26 +23,31 @@ public class Crawler implements Runnable {
 	public void run() {
 		while(true) {
 			try {
-				System.out.println("here");
+				Date date =new Date();
+				System.out.println(date.getHours()+":"+date.getMinutes());
 				Status status = clawling();
 				
-				System.out.println(status.getDate());
+				if(status !=null) {
+					System.out.println(status.getDate());
+					
+					List<Status> list;
+	
+					list = statusService.getAll();
+					System.out.println(list.get(0).getDate());
+					
+					
+					if(!status.getDate().equals(list.get(0).getDate()))
+						System.out.println(statusService.insert(status));
+				}
+				else
+					System.out.println("status is null");
 				
-				List<Status> list;
-
-				list = statusService.getAll();
-				System.out.println(list.get(0).getDate());
-				
-				
-				if(!status.getDate().equals(list.get(0).getDate()))
-					System.out.println(statusService.insert(status));
-				
-				Thread.sleep(10000);
+				Thread.sleep(60000);
 			
 			} catch (Exception e) {
 				e.printStackTrace();
 				try {
-					Thread.sleep(10000);
+					Thread.sleep(60000);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -62,9 +67,7 @@ public class Crawler implements Runnable {
 			doc = Jsoup.connect(url).get();
 
 		} catch (IOException e) {
-
-			e.printStackTrace();
-
+			System.out.println("Too many redirects occurred trying to load URL");
 		}
 
 		// select를 이용하여 원하는 태그를 선택한다. select는 원하는 값을 가져오기 위한 중요한 기능이다.
