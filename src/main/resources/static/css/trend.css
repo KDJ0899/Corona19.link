@@ -1,0 +1,35 @@
+html, body {
+	    position: absolute;
+	    width:100%;
+	    height: 100%;
+	    overflow:auto;
+	    margin: 0;
+    	padding: 0;
+    	text-align: center; 
+	 }
+	.button{
+		border-bottom:2px solid #DDDDDD;
+		cursor: pointer;
+		color: black;
+		margin: 10px auto;
+		display: block;
+    }
+    .under_div{
+	    width : 50%; 
+	    height : 100%; 
+	    text-align: center; 
+	    padding: 1%;
+    }
+    .left_td{
+    	width : 25%;
+    }
+    .date{
+    	font-size: 25px;
+    }
+    .red{
+    	color: red;
+    }
+    
+    @media (max-width:1023px) {
+	
+	}
