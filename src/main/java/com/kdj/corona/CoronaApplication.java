@@ -7,8 +7,9 @@ import com.kdj.corona.crawling.Crawler;
 
 @SpringBootApplication
 public class CoronaApplication {
-
-	public static void main(String[] args) {
+	
+	public static void main(String[] args) throws Exception {
+		
 		SpringApplication.run(CoronaApplication.class, args);
 		Crawler crawler = new Crawler();
 		Thread crawlerThread = new Thread(crawler);

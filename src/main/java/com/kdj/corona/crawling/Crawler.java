@@ -10,17 +10,36 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.kdj.corona.db.service.StatusService;
+import com.kdj.corona.db.DBConnector;
 import com.kdj.corona.dto.Status;
 
 public class Crawler implements Runnable {
-
-	@Autowired
-    StatusService statusService;
 	
+	String nowDate;
+
 	public void run() {
+		
+		DBConnector db = new DBConnector();
+		List<Status> list = null;
+		while(list==null) {
+			try {
+				list = db.getAll();
+				System.out.println(list.get(0).getDate());
+				nowDate = list.get(0).getDate();
+				Thread.sleep(1000);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		}
+		
 		while(true) {
 			try {
 				Date date =new Date();
@@ -28,26 +47,25 @@ public class Crawler implements Runnable {
 				Status status = clawling();
 				
 				if(status !=null) {
-					System.out.println(status.getDate());
-					
-					List<Status> list;
-	
-					list = statusService.getAll();
-					System.out.println(list.get(0).getDate());
-					
-					
-					if(!status.getDate().equals(list.get(0).getDate()))
-						System.out.println(statusService.insert(status));
+					System.out.println("crawling: "+status.getDate());
+					System.out.println("saved: "+nowDate);
+					if(!status.getDate().equals(nowDate)) {
+						System.out.println(db.insert(status));
+						if(db.insert(status)){
+							nowDate = status.getDate();
+							Thread.sleep(21600000); //6시간
+						}
+					}
 				}
 				else
 					System.out.println("status is null");
 				
-				Thread.sleep(60000);
+				Thread.sleep(600000);
 			
 			} catch (Exception e) {
 				e.printStackTrace();
 				try {
-					Thread.sleep(60000);
+					Thread.sleep(600000);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
