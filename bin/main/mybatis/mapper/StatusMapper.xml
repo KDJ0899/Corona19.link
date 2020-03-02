@@ -5,7 +5,7 @@
         select * from status order by quarantinedPatient desc,date desc;
     </select>
     
-    <insert id="insert">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
     	INSERT INTO STATUS (quarantinedPatient, treatedPatient, deceasedPerson, inspecting, date) 
     	VALUES (#{quarantinedPatient}, #{treatedPatient}, #{deceasedPerson}, #{inspecting}, #{date});
     </insert>

@@ -18,8 +18,8 @@ public class StatusService {
 		return statusMapper.getAll();
 	}
 	
-	public void insert(Status status) throws Exception{
-		statusMapper.insert(status);
+	public int insert(Status status) throws Exception{
+		return statusMapper.insert(status);
 	}
 
 }
