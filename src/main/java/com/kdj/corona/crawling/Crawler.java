@@ -1,6 +1,8 @@
 package com.kdj.corona.crawling;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -22,10 +24,9 @@ public class Crawler implements Runnable {
 		
 		DBConnector db = new DBConnector();
 		List<Status> list = null;
-		while(list==null) {
+		while(list==null) { //db에 저장된 정보 가져오기.
 			try {
 				list = db.getAll();
-				System.out.println(list.get(0).getDate());
 				nowDate = list.get(0).getDate();
 				Thread.sleep(1000);
 			} catch (Exception e) {
@@ -40,16 +41,26 @@ public class Crawler implements Runnable {
 			}
 		}
 		
-		while(true) {
+		while(true) { //크롤링.
 			try {
-				Date date =new Date();
-				System.out.println(date.getHours()+":"+date.getMinutes());
 				Status status = clawling();
 				
 				if(status !=null) {
-					System.out.println("crawling: "+status.getDate());
-					System.out.println("saved: "+nowDate);
-					if(!status.getDate().equals(nowDate)) {
+					
+					Date date1 = null;
+					Date date2 = null;
+					try {
+					    DateFormat formatter ; 
+					 
+					    formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+					    date1 = (Date)formatter.parse(status.getDate());
+					    date2 = (Date)formatter.parse(nowDate);
+					    
+					    System.out.println("crawling: "+(date1.getMonth()+1)+"/"+date1.getDay()+" "+date1.getHours()+":0");
+						System.out.println("saved: "+(date2.getMonth()+1)+"/"+date2.getDay()+" "+date2.getHours()+":0");
+					} catch (Exception e) {}
+					
+					if(date1.getTime()!=date2.getTime()) {
 						System.out.println(db.insert(status));
 						if(db.insert(status)){
 							nowDate = status.getDate();
@@ -85,7 +96,9 @@ public class Crawler implements Runnable {
 			doc = Jsoup.connect(url).get();
 
 		} catch (IOException e) {
-			System.out.println("Too many redirects occurred trying to load URL");
+
+			e.printStackTrace();
+
 		}
 
 		// select를 이용하여 원하는 태그를 선택한다. select는 원하는 값을 가져오기 위한 중요한 기능이다.
@@ -108,7 +121,14 @@ public class Crawler implements Runnable {
 	    	
 		    	String[] strs = str.split("\\(");
 		    	strs = strs[1].split(" 기준");
-		    	String time = strs[0];
+		    	strs = strs[0].split("일 ");
+		    	String day = strs[0];
+		    	String time = strs[1];
+		    	strs = day.split("[.]");
+		    	String month = strs[0];
+		    	day = strs[0];
+		    	strs = time.split("시");
+		    	time = strs[0];
 		    	
 		    	List<String> list = new ArrayList<String>();
 		    	while(nowStatus.hasNext()) {
@@ -128,7 +148,7 @@ public class Crawler implements Runnable {
 		    			.treatedPatient(treatedPatient)
 		    			.deceasedPerson(deceasedPerson)
 		    			.inspecting(inspecting)
-						.date(time)
+						.date("2020-"+month+"-"+day+" "+time+":00")
 					.build();
 		    }
     	}
