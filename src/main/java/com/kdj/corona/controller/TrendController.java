@@ -99,12 +99,12 @@ public class TrendController {
 	    	
 	    	status=statusList.get(0);
 	    	
-	    	if(!status.getDate().contains("16시")) {
-	    		System.out.println("h");
-	    		answer = gson.toJson(status);
-	    		graphList.add(answer);
-	    		System.out.println(answer);
-	    	}
+//	    	if(!status.getDate().contains("16시")) {
+//	    		System.out.println("h");
+//	    		answer = gson.toJson(status);
+//	    		graphList.add(answer);
+//	    		System.out.println(answer);
+//	    	}
 	    
 	    	for(int i=0; i<statusList.size(); i++){
 	    		status = statusList.get(i);
@@ -112,7 +112,7 @@ public class TrendController {
 		    	answer = gson.toJson(status);
 		    	answerList.add(answer);
 		    	
-		    	if(status.getDate().contains("16시")) {
+		    	if(!status.getDate().contains("09시")) {
 	    			graphList.add(answer);
 	    		}
 	    	}
