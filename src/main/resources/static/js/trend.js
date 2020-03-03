@@ -10,6 +10,9 @@ function showStatusInfo(statusList) {
 	var deceasedPerson = obj1.deceasedPerson - obj2.deceasedPerson;
 	var inspecting = obj1.inspecting - obj2.inspecting;
 
+	var date1 = obj1.date.split(" ");
+	var date2 = obj2.date.split(" ");
+
 	if (obj1.quarantinedPatient - obj2.quarantinedPatient > 0) {
 		quarantinedPatient = "+" + quarantinedPatient;
 	}
@@ -26,7 +29,7 @@ function showStatusInfo(statusList) {
 	text += '<h2> 코로나바이러스감염증-19 국내 발생 현황 </h2>' +
 		'<table style="width:100%; border-spacing:10px; font-size:18px;">' +
 		'<tr>' +
-		'<td class = "left_td"></td>' + '<td class="date"><b>' + obj2.date + '</b></td>' + '<td class="date"><b>' + obj1.date + '</b></td>' +
+		'<td class = "left_td"></td>' + '<td class="date"><b>' + date2[0] + '</b></td>' + '<td class="date"><b>' + date1[0] + '</b></td>' +
 		'</tr>' +
 		'<tr>' +
 		'<td class = "left_td"><b>확진환자</b></td>' + '<td>' + obj2.quarantinedPatient + '</td>' + '<td>' + obj1.quarantinedPatient + '<b class="red"> (' + quarantinedPatient + ')</b></td>' +

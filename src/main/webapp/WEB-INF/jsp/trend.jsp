@@ -79,8 +79,7 @@ function drawStatusChart() {
 	for (var i = graphList.length - 1; i >= 0; i--) { //날짜 입력. 
 		arr[index] = new Array(4);
 		var obj = graphList[i];
-		var date = obj.date.split("일 ");
-		arr[index][0] = date[0];
+		arr[index][0] = obj.date;
 		arr[index][1] = obj.quarantinedPatient / statusMax.quarantinedPatient * 100;
 		arr[index][2] = obj.treatedPatient / statusMax.treatedPatient * 100;
 		arr[index][3] = obj.deceasedPerson / statusMax.deceasedPerson * 100;

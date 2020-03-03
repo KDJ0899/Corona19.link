@@ -1,5 +1,6 @@
 package com.kdj.corona.controller;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -98,21 +99,26 @@ public class TrendController {
 	    	statusList = statusService.getAll();
 	    	
 	    	status=statusList.get(0);
-	    	
-//	    	if(!status.getDate().contains("16시")) {
-//	    		System.out.println("h");
-//	    		answer = gson.toJson(status);
-//	    		graphList.add(answer);
-//	    		System.out.println(answer);
-//	    	}
-	    
+	    	Date date = null;
+			
 	    	for(int i=0; i<statusList.size(); i++){
 	    		status = statusList.get(i);
 	    		
-		    	answer = gson.toJson(status);
+	    		answer = gson.toJson(status);
 		    	answerList.add(answer);
+	    		try {
+				    DateFormat formatter ; 
+				 
+				    formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+				    date = (Date)formatter.parse(status.getDate());
+				    
+				    status.setDate((date.getMonth()+1)+"-"+date.getDate());
+				} catch (Exception e) {}
+	    		
 		    	
-		    	if(!status.getDate().contains("09시")) {
+		    	
+		    	if(date.getHours()!=9) {
+		    		answer = gson.toJson(status);
 	    			graphList.add(answer);
 	    		}
 	    	}
