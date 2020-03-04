@@ -56,27 +56,27 @@ public class Crawler implements Runnable {
 					    date1 = (Date)formatter.parse(status.getDate());
 					    date2 = (Date)formatter.parse(nowDate);
 					    
-					    System.out.println("crawling: "+(date1.getMonth()+1)+"/"+date1.getDay()+" "+date1.getHours()+":0");
-						System.out.println("saved: "+(date2.getMonth()+1)+"/"+date2.getDay()+" "+date2.getHours()+":0");
+					    System.out.println("crawling: "+(date1.getMonth()+1)+"/"+(date1.getDay()+1)+" "+date1.getHours()+":0");
+						System.out.println("saved: "+(date2.getMonth()+1)+"/"+(date2.getDay()+1)+" "+date2.getHours()+":0");
 					} catch (Exception e) {}
 					
 					if(date1.getTime()!=date2.getTime()) {
 						System.out.println(db.insert(status));
 						if(db.insert(status)){
 							nowDate = status.getDate();
-							Thread.sleep(21600000); //6시간
+							Thread.sleep(64800000); //18시간
 						}
 					}
 				}
 				else
 					System.out.println("status is null");
 				
-				Thread.sleep(600000);
+				Thread.sleep(600000);//10분
 			
 			} catch (Exception e) {
 				e.printStackTrace();
 				try {
-					Thread.sleep(600000);
+					Thread.sleep(600000);//10분
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -126,7 +126,7 @@ public class Crawler implements Runnable {
 		    	String time = strs[1];
 		    	strs = day.split("[.]");
 		    	String month = strs[0];
-		    	day = strs[0];
+		    	day = strs[1];
 		    	strs = time.split("시");
 		    	time = strs[0];
 		    	
