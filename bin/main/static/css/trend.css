@@ -30,6 +30,9 @@ html, body {
     .red{
     	color: red;
     }
+    .blue{
+    	color: blue;
+    }
     
     @media (max-width:1023px) {
 	
