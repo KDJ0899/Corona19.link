@@ -9,6 +9,7 @@ function showStatusInfo(statusList) {
 	var treatedPatient = obj1.treatedPatient - obj2.treatedPatient;
 	var deceasedPerson = obj1.deceasedPerson - obj2.deceasedPerson;
 	var inspecting = obj1.inspecting - obj2.inspecting;
+	var colorClass="blue";
 
 	var date1 = obj1.date.split(" ");
 	var date2 = obj2.date.split(" ");
@@ -24,26 +25,30 @@ function showStatusInfo(statusList) {
 	}
 	if (obj1.inspecting - obj2.inspecting > 0) {
 		inspecting = "+" + inspecting;
+		colorClass="red";
 	}
 
-	text += '<h2> 코로나바이러스감염증-19 국내 발생 현황 </h2>' +
+	text += '<h3> 코로나바이러스감염증-19 국내 발생 현황 </h3>' +
 		'<table style="width:100%; border-spacing:10px; font-size:18px;">' +
 		'<tr>' +
 		'<td class = "left_td"></td>' + '<td class="date"><b>' + date2[0] + '</b></td>' + '<td class="date"><b>' + date1[0] + '</b></td>' +
 		'</tr>' +
 		'<tr>' +
-		'<td class = "left_td"><b>확진환자</b></td>' + '<td>' + obj2.quarantinedPatient + '</td>' + '<td>' + obj1.quarantinedPatient + '<b class="red"> (' + quarantinedPatient + ')</b></td>' +
+		'<td class = "left_td"><b>확진환자</b></td>' + '<td>' + obj2.quarantinedPatient + '</td>' + '<td>' + obj1.quarantinedPatient + ' (<b class="red">' + quarantinedPatient + '</b>)</td>' +
 		'</tr>' +
 		'<tr>' +
-		'<td class = "left_td"><b>격리 해제된 환자</b></td>' + '<td>' + obj2.treatedPatient + '</td>' + '<td>' + obj1.treatedPatient + '<b class="red"> (' + treatedPatient + ')</b></td>' +
+		'<td class = "left_td"><b>격리 해제된 환자</b></td>' + '<td>' + obj2.treatedPatient + '</td>' + '<td>' + obj1.treatedPatient + ' (<b class="red">' + treatedPatient + '</b>)</td>' +
 		'</tr>' +
 		'<tr>' +
-		'<td class = "left_td"><b>사망자</b></td>' + '<td>' + obj2.deceasedPerson + '</td>' + '<td>' + obj1.deceasedPerson + '<b class="red"> (' + deceasedPerson + ')</b></td>' +
+		'<td class = "left_td"><b>사망자</b></td>' + '<td>' + obj2.deceasedPerson + '</td>' + '<td>' + obj1.deceasedPerson + ' (<b class="red">' + deceasedPerson + '</b>)</td>' +
 		'</tr>' +
 		'<tr>' +
-		'<td class = "left_td"><b>검사 진행</b></td>' + '<td>' + obj2.inspecting + '</td>' + '<td>' + obj1.inspecting + '<b class="red"> (' + inspecting + ')</b></td>' +
+		'<td class = "left_td"><b>검사 진행</b></td>' + '<td>' + obj2.inspecting + '</td>' + '<td>' + obj1.inspecting + ' (<b class="'+colorClass+'">' + inspecting + '</b>)</td>' +
 		'</tr>' +
-		'</table>';
+		'</table>'+
+		'<div style="width:90%;">'+
+		'<p style="text-align:right;">출처: <b style="cursor: pointer;" onclick="window.open(\'http://www.cdc.go.kr/index.es?sid=a2\');">질병관리본부</b></p>'+
+		'</div>';
 
 	div.innerHTML = text;
 
