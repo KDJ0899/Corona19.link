@@ -61,8 +61,12 @@ public class TrendController {
 	        
 	        keywords.add("코로나바이러스");
 	        keywords.add("코로나");
+	        keywords2.add("마스크");
+	        keywords2.add("KF94 마스크");
+	        keywords2.add("일회용마스크");
 	        keywords3.add("코로나19");
 	        
+	        //트렌드 그래프
 	        dateFormat = new SimpleDateFormat ( "yyyy-MM-dd");
 	        endDate = dateFormat.format(new Date());
 	        trend = SearchTrend.builder()
@@ -77,6 +81,10 @@ public class TrendController {
 	        							KeyWord.builder()
 	        							.groupName("코로나19")
 	        							.keywords(keywords3)
+	        							.build(),
+	        							KeyWord.builder()
+	        							.groupName("마스크")
+	        							.keywords(keywords2)
 	        							.build()
 	        					})
 	        					.device("")
@@ -88,7 +96,7 @@ public class TrendController {
 	        
 	    	model.addObject("trend",answer);
 	    	
-	    	
+	    	//쇼핑 api
 	    	searchForm = SearchForm.builder()
 	    						.query("코로나")
 	    						.display(10)
@@ -96,9 +104,13 @@ public class TrendController {
 	    	answer = SearchAPI.connectAPI(searchForm,SearchAPI.shop);
 	    	model.addObject("shopping", answer);
 	    	
+	    	
+	    	//환자 현황.
 	    	statusList = statusService.getAll();
 	    	
 	    	status=statusList.get(0);
+	    	Status status2,maxStatus;
+	    	List<Status> statusList2 = new ArrayList<Status>();
 	    	Date date = null;
 			
 	    	for(int i=0; i<statusList.size(); i++){
@@ -113,6 +125,7 @@ public class TrendController {
 				    date = (Date)formatter.parse(status.getDate());
 				    
 				    status.setDate((date.getMonth()+1)+"-"+date.getDate());
+				    
 				} catch (Exception e) {}
 	    		
 		    	
@@ -120,13 +133,45 @@ public class TrendController {
 		    	if(date.getHours()!=9) {
 		    		answer = gson.toJson(status);
 	    			graphList.add(answer);
+	    			statusList2.add(status);
 	    		}
 	    	}
+	    	status2 = statusList2.get(0);
+	    	maxStatus =Status.builder()
+	    			.deceasedPerson(0)
+	    			.quarantinedPatient(0)
+	    			.treatedPatient(0).build();
+	    	List<String> graphList2 = new ArrayList<String>();
 	    	
+	    	for(int i=1; i<statusList2.size(); i++) {
+	    		status = status2;
+	    		status2 = statusList2.get(i);
+	    		
+	    		status.setQuarantinedPatient(status.getQuarantinedPatient()-status2.getQuarantinedPatient());
+	    		status.setDeceasedPerson(status.getDeceasedPerson()-status2.getDeceasedPerson());
+	    		status.setTreatedPatient(status.getTreatedPatient()-status2.getTreatedPatient());
+	    		
+	    		if(maxStatus.getDeceasedPerson()<status.getDeceasedPerson())
+	    			maxStatus.setDeceasedPerson(status.getDeceasedPerson());
+	    		if(maxStatus.getQuarantinedPatient()<status.getQuarantinedPatient())
+	    			maxStatus.setQuarantinedPatient(status.getQuarantinedPatient());
+	    		if(maxStatus.getTreatedPatient()<status.getTreatedPatient())
+	    			maxStatus.setTreatedPatient(status.getTreatedPatient());
+	    		
+	    		answer = gson.toJson(status);
+    			graphList2.add(answer);
+	    	}
+	    	System.out.println(status2.toString());
 	    	
+	    	answer = gson.toJson(status2);
+			graphList2.add(answer);
+			answer = gson.toJson(maxStatus);
 	    	
 	    	model.addObject("status", answerList);
 	    	model.addObject("graphList", graphList);
+	    	model.addObject("graphList2", graphList2);
+	    	model.addObject("maxStatus", answer);
+	    	
 	    	System.out.println(statusList.get(0).getQuarantinedPatient());
 	    	
 	    	//뉴스 api

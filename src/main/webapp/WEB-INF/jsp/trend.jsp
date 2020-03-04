@@ -5,7 +5,7 @@
 <head>
 <meta charset="EUC-KR">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>Insert title here</title>
+<title>코로나19</title>
 <link rel= "stylesheet" type="text/css" href="/static/css/trend.css">
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="/static/js/trend.js"></script>
@@ -13,6 +13,7 @@
 <body>
 <div style = "width:90%; display: inline-block; text-align: center;">
 	<div>
+		<h1 style="background-color: darkolivegreen; color: white;">코로나19 현황</h1>
 		<div id="status_div" style = "margin-bottom: 5%;">
 				
 		</div>
@@ -27,7 +28,10 @@
 			<div id="news_div"  style=" text-align: left;">
 			</div>
 		</div>
-		
+		<div style="background-color: darkolivegreen; color: white;">
+		<p>만든이 : 김동진</p>
+		<p>dongjin0899@gmail.com</p>
+		</div>
 	</div>
 	<%--<div style="height: 65%; display: flex;">
 		<div>
@@ -55,14 +59,19 @@ google.charts.setOnLoadCallback(drawStatusChart);
 function drawStatusChart() {
 	
 	var graphList = JSON.parse('${graphList}');
+	var graphList2 = JSON.parse('${graphList2}');
+	var statusMax2 = JSON.parse('${maxStatus}');
 	
 	var statusMax = graphList[0];
 	var arr = [[], []];
 	console.log(statusMax.quarantinedPatient);
 	var chart_options = {
-		title: '환자 현황 그래프',
+		title: '국내 환자 현황 그래프 (단위: %)',
 		width: '100%',
 		seriesType: 'line',
+		bar: {
+			groupWidth: '80%'
+		},
 		hAxis: { textStyle: { fontSize: 12 } },
 		titleTextStyle: {fontSize: 20}
 	};
@@ -85,7 +94,19 @@ function drawStatusChart() {
 		arr[index][3] = obj.deceasedPerson / statusMax.deceasedPerson * 100;
 		index++;
 
-	}
+	} 
+	
+	/* var index = 1;
+	for (var i = graphList2.length - 1; i >= 0; i--) { //날짜 입력. 
+		arr[index] = new Array(4);
+		var obj = graphList2[i];
+		arr[index][0] = obj.date;
+		arr[index][1] = obj.quarantinedPatient / statusMax2.quarantinedPatient * 100;
+		arr[index][2] = obj.treatedPatient / statusMax2.treatedPatient * 100;
+		arr[index][3] = obj.deceasedPerson / statusMax2.deceasedPerson * 100;
+		index++;
+
+	} */
 
 	console.log(arr);
 	var data = new google.visualization.arrayToDataTable(arr);
@@ -96,6 +117,8 @@ function drawStatusChart() {
 
 function drawChart() {
 	var trendObj = JSON.parse('${trend}');
+	var graphList = JSON.parse('${graphList2}');
+	var statusMax = JSON.parse('${maxStatus}');
 	
 	var arr = [[], []];
 	var chart_options = {
@@ -130,20 +153,20 @@ function drawChart() {
 
 	arr = new Array(diff);
 
-	arr[0] = new Array(results.length + 1);
+	arr[0] = new Array(results.length + 2);
 	arr[0][0] = 'Date';
 	console.log(diff);
 
 	date = (startDate.getMonth() + 1) + '-' + startDate.getDate();
 	map.set(date, new Array(results.length));
-	arr[1] = new Array(results.length + 1);
+	arr[1] = new Array(results.length + 2);
 	arr[1][0] = date;
 
 	for (var j = 2; j < diff + 1; j++) { //날짜 입력. 
 		startDate.setDate(startDate.getDate() + dateType);
 		date = (startDate.getMonth() + 1) + '-' + startDate.getDate();
-		map.set(date, new Array(results.length));
-		arr[j] = new Array(results.length + 1);
+		map.set(date, new Array(results.length+1));
+		arr[j] = new Array(results.length + 2);
 		arr[j][0] = date;
 	}
 
@@ -157,6 +180,14 @@ function drawChart() {
 			str = (date.getMonth() + 1) + '-' + date.getDate();
 			map.get(str)[i] = data[j].ratio;
 		}
+	}
+
+	arr[0][4] = '확진환자';
+	for(var i=0; i<graphList.length; i++){
+		var obj = graphList[i];
+		console.log(obj.date);
+		if(map.has(obj.date))
+			map.get(obj.date)[3] = obj.quarantinedPatient / statusMax.quarantinedPatient * 100;
 	}
 
 	var i = 1;
