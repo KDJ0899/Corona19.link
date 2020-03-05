@@ -78,7 +78,6 @@ function showShoppingInfo() {
 }
 
 function showNewsInfo(list) {
-	console.log(list[0]);
 	var div = document.getElementById('news_div');
 	var text = "";
 	var nowDate = new Date();

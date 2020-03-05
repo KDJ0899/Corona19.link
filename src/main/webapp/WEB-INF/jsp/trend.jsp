@@ -64,7 +64,6 @@ function drawStatusChart() {
 	
 	var statusMax = graphList[0];
 	var arr = [[], []];
-	console.log(statusMax.quarantinedPatient);
 	var chart_options = {
 		title: '국내 환자 현황 그래프 (단위: %)',
 		width: '100%',
@@ -108,7 +107,6 @@ function drawStatusChart() {
 
 	} */
 
-	console.log(arr);
 	var data = new google.visualization.arrayToDataTable(arr);
 	var chart = new google.visualization.ComboChart(document.getElementById('status_chart_div'));
 	chart.draw(data, chart_options);
@@ -155,7 +153,6 @@ function drawChart() {
 
 	arr[0] = new Array(results.length + 2);
 	arr[0][0] = 'Date';
-	console.log(diff);
 
 	date = (startDate.getMonth() + 1) + '-' + startDate.getDate();
 	map.set(date, new Array(results.length));
@@ -185,7 +182,6 @@ function drawChart() {
 	arr[0][4] = '확진환자';
 	for(var i=0; i<graphList.length; i++){
 		var obj = graphList[i];
-		console.log(obj.date);
 		if(map.has(obj.date))
 			map.get(obj.date)[3] = obj.quarantinedPatient / statusMax.quarantinedPatient * 100;
 	}
@@ -199,7 +195,6 @@ function drawChart() {
 		i++;
 	}
 
-	console.log(arr);
 	
 	var data = new google.visualization.arrayToDataTable(arr);
 	var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
