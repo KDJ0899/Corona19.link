@@ -19,8 +19,9 @@
 		<div id="status_chart_div" style="margin-bottom: 5%;">
 		</div>
 		
-		<div id="chart_div" style="margin-bottom: 5%;">
+		<div id="chart_div">
 		</div>
+		<p style="text-align: right; font-size:11px; margin-right: 20px;">* 확진자는 전날대비 증가폭</p>
 		
 		<div style="width:70%; display: inline-block;">
 			<h2>관련 뉴스</h2>
@@ -119,7 +120,7 @@ function drawChart() {
 	
 	var arr = [[], []];
 	var chart_options = {
-		title: '네이버 키워드 검색 빈도 (' + trendObj.startDate + ' ~ ' + trendObj.endDate + ')',
+		title: '네이버 키워드 검색 빈도 (단위 %)',
 		width: '100%',
 		bar: {
 			groupWidth: '80%' // 예제에서 이 값을 수정
