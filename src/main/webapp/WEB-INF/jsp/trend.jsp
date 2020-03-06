@@ -80,7 +80,7 @@ function drawStatusChart() {
 	arr[0] = new Array(4);
 	arr[0][0] = 'Date';
 	arr[0][1] = '확진환자';
-	arr[0][2] = '격리해제';
+	arr[0][2] = '완치자';
 	arr[0][3] = '사망자';
 
 	var index = 1;
@@ -179,7 +179,7 @@ function drawChart() {
 		}
 	}
 
-	arr[0][4] = '확진환자';
+	arr[0][4] = '확진자';
 	for(var i=0; i<graphList.length; i++){
 		var obj = graphList[i];
 		if(map.has(obj.date))

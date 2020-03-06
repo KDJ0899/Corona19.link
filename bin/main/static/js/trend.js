@@ -9,7 +9,8 @@ function showStatusInfo(statusList) {
 	var treatedPatient = obj1.treatedPatient - obj2.treatedPatient;
 	var deceasedPerson = obj1.deceasedPerson - obj2.deceasedPerson;
 	var inspecting = obj1.inspecting - obj2.inspecting;
-	var colorClass="blue";
+	var colorClass1="red";
+	var colorClass2="blue";
 
 	var date1 = obj1.date.split(" ");
 	var date2 = obj2.date.split(" ");
@@ -17,15 +18,16 @@ function showStatusInfo(statusList) {
 	if (obj1.quarantinedPatient - obj2.quarantinedPatient > 0) {
 		quarantinedPatient = "+" + quarantinedPatient;
 	}
-	if (obj1.treatedPatient - obj2.treatedPatient >= 0) {
+	if (obj1.treatedPatient - obj2.treatedPatient > 0) {
 		treatedPatient = "+" + treatedPatient;
+		colorClass1="blue";
 	}
-	if (obj1.deceasedPerson - obj2.deceasedPerson >= 0) {
+	if (obj1.deceasedPerson - obj2.deceasedPerson > 0) {
 		deceasedPerson = "+" + deceasedPerson;
 	}
 	if (obj1.inspecting - obj2.inspecting > 0) {
 		inspecting = "+" + inspecting;
-		colorClass="red";
+		colorClass2="red";
 	}
 
 	text += '<h3> 코로나바이러스감염증-19 국내 발생 현황 </h3>' +
@@ -37,13 +39,13 @@ function showStatusInfo(statusList) {
 		'<td class = "left_td"><b>확진환자</b></td>' + '<td>' + obj2.quarantinedPatient + '</td>' + '<td>' + obj1.quarantinedPatient + ' (<b class="red">' + quarantinedPatient + '</b>)</td>' +
 		'</tr>' +
 		'<tr>' +
-		'<td class = "left_td"><b>격리 해제된 환자</b></td>' + '<td>' + obj2.treatedPatient + '</td>' + '<td>' + obj1.treatedPatient + ' (<b class="red">' + treatedPatient + '</b>)</td>' +
+		'<td class = "left_td"><b>완치자</b></td>' + '<td>' + obj2.treatedPatient + '</td>' + '<td>' + obj1.treatedPatient + ' (<b class="'+colorClass1+'">' + treatedPatient + '</b>)</td>' +
 		'</tr>' +
 		'<tr>' +
 		'<td class = "left_td"><b>사망자</b></td>' + '<td>' + obj2.deceasedPerson + '</td>' + '<td>' + obj1.deceasedPerson + ' (<b class="red">' + deceasedPerson + '</b>)</td>' +
 		'</tr>' +
 		'<tr>' +
-		'<td class = "left_td"><b>검사 진행</b></td>' + '<td>' + obj2.inspecting + '</td>' + '<td>' + obj1.inspecting + ' (<b class="'+colorClass+'">' + inspecting + '</b>)</td>' +
+		'<td class = "left_td"><b>검사 진행</b></td>' + '<td>' + obj2.inspecting + '</td>' + '<td>' + obj1.inspecting + ' (<b class="'+colorClass2+'">' + inspecting + '</b>)</td>' +
 		'</tr>' +
 		'</table>'+
 		'<div style="width:90%;">'+
