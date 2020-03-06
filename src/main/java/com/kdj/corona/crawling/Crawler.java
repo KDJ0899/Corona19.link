@@ -61,7 +61,6 @@ public class Crawler implements Runnable {
 					} catch (Exception e) {}
 					
 					if(date1.getTime()!=date2.getTime()) {
-						System.out.println(db.insert(status));
 						if(db.insert(status)){
 							nowDate = status.getDate();
 							Thread.sleep(64800000); //18시간
