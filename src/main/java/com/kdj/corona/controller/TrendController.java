@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.kdj.corona.crawling.Crawler;
+import com.kdj.corona.crawler.Crawler;
 import com.kdj.corona.db.service.StatusService;
 import com.kdj.corona.dto.NewsItem;
 import com.kdj.corona.dto.KeyWord;

@@ -3,7 +3,7 @@ package com.kdj.corona;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.kdj.corona.crawling.Crawler;
+import com.kdj.corona.crawler.Crawler;
 
 @SpringBootApplication
 public class CoronaApplication {
