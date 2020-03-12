@@ -5,14 +5,14 @@
 <head>
 <meta charset="EUC-KR">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>코로나19</title>
+<title>코로나19 Link</title>
 <link rel= "stylesheet" type="text/css" href="/static/css/trend.css">
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body>
 <div style = "width:90%; display: inline-block; text-align: center;">
 	<div>
-		<h1 style="background-color: darkolivegreen; color: white;">코로나19 현황</h1>
+		<h1 style="background-color: darkolivegreen; color: white;">코로나19 Link</h1>
 		<div id="status_div" style = "margin-bottom: 5%;">
 				
 		</div>
