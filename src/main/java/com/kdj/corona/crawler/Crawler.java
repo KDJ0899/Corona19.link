@@ -56,7 +56,7 @@ public class Crawler implements Runnable {
 				if(status !=null) {
 					status.setDate(nextDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 					if(db.insert(status)) {
-						nextDate.plusDays(1);
+						nextDate = nextDate.plusDays(1);
 						System.out.println("Sucsess");
 						Thread.sleep(72000000); //20시간
 					}
