@@ -129,7 +129,6 @@ public class Crawler implements Runnable {
     		    	int treatedPatient = Integer.parseInt(nowStatus.next().text().replace(",", ""));
     		    	nowStatus.next();
     		    	int deceasedPerson = Integer.parseInt(nowStatus.next().text().replace(",", ""));
-    		    	nowStatus.next();
     		    	int inspecting = Integer.parseInt(nowStatus.next().text().replace(",", ""));
     				
     		    	status = Status.builder()
