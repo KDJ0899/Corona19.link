@@ -36,7 +36,6 @@ public class Crawler implements Runnable {
 			    	    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")); 
 				
 				nextDate =nextDate.plusDays(1);
-				date= nextDate.getMonthValue()+"월 "+(nextDate.getDayOfMonth())+"일";
 				Thread.sleep(1000);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -52,6 +51,7 @@ public class Crawler implements Runnable {
 		
 		while(true) { //크롤링.
 			try {
+				date= nextDate.getMonthValue()+"월 "+(nextDate.getDayOfMonth())+"일";
 				Status status = clawling(date);
 				if(status !=null) {
 					status.setDate(nextDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
