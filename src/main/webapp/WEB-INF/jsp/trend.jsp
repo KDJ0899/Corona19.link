@@ -83,7 +83,7 @@ function drawStatusChart() {
 	arr[0][2] = '완치자';
 	arr[0][3] = '사망자';
 
-	var index = 1;
+/* 	var index = 1;
 	for (var i = graphList.length - 1; i >= 0; i--) { //날짜 입력. 
 		arr[index] = new Array(4);
 		var obj = graphList[i];
@@ -93,9 +93,9 @@ function drawStatusChart() {
 		arr[index][3] = obj.deceasedPerson / statusMax.deceasedPerson * 100;
 		index++;
 
-	} 
+	}  */
 	
-	/* var index = 1;
+	var index = 1;
 	for (var i = graphList2.length - 1; i >= 0; i--) { //날짜 입력. 
 		arr[index] = new Array(4);
 		var obj = graphList2[i];
@@ -105,7 +105,7 @@ function drawStatusChart() {
 		arr[index][3] = obj.deceasedPerson / statusMax2.deceasedPerson * 100;
 		index++;
 
-	} */
+	}
 
 	var data = new google.visualization.arrayToDataTable(arr);
 	var chart = new google.visualization.ComboChart(document.getElementById('status_chart_div'));
