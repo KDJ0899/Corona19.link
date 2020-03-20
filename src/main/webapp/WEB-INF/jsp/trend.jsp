@@ -65,7 +65,7 @@ function drawStatusChart() {
 	var statusMax = graphList[0];
 	var arr = [[], []];
 	var chart_options = {
-		title: '국내 환자 현황 그래프 (단위: %)',
+		title: '국내 환자 현황 변동 그래프 (단위: %)',
 		width: '100%',
 		seriesType: 'line',
 		bar: {
