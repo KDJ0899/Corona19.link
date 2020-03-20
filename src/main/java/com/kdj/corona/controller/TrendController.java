@@ -175,24 +175,23 @@ public class TrendController {
 	    	System.out.println(statusList.get(0).getQuarantinedPatient());
 	    	
 	    	//뉴스 api
-	    	searchForm = SearchForm.builder()
-					.query("확진자 "+statusList.get(0).getQuarantinedPatient()+"명")
-					.display(2)
-					.sort("sim")
-					.build();
-	    	answer = SearchAPI.connectAPI(searchForm,SearchAPI.news);
-	    	News news = gson.fromJson(answer, News.class );
+//	    	searchForm = SearchForm.builder()
+//					.query("확진자 "+statusList.get(0).getQuarantinedPatient()+"명")
+//					.display(2)
+//					.sort("sim")
+//					.build();
+//	    	answer = SearchAPI.connectAPI(searchForm,SearchAPI.news);
+//	    	News news = gson.fromJson(answer, News.class );
 	    	
 	    	searchForm = SearchForm.builder()
 					.query("코로나19")
-					.display(4)
+					.display(6)
 					.sort("sim")
 					.build();
 	    	answer = SearchAPI.connectAPI(searchForm,SearchAPI.news);
 	    	News news2 = gson.fromJson(answer, News.class );
 	    	
-	    	news.getItems().addAll(news2.getItems());
-	    	answer = gson.toJson(news.getItems());
+	    	answer = gson.toJson(news2.getItems());
 	    	model.addObject("news", answer);
 	    	System.out.println(answer);
 
