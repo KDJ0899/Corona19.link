@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kdj.corona.db.jpa.StatusRepository;
 import com.kdj.corona.db.mapper.StatusMapper;
 import com.kdj.corona.dto.Status;
 
@@ -12,14 +13,14 @@ import com.kdj.corona.dto.Status;
 public class StatusService {
 	
 	@Autowired
-	StatusMapper statusMapper;
+	private StatusRepository statusRepository;
 	
 	public List<Status> getAll() throws Exception{
-		return statusMapper.getAll();
+		return statusRepository.findAllByOrderByDateDesc();
 	}
 	
-	public int insert(Status status) throws Exception{
-		return statusMapper.insert(status);
+	public Status insert(Status status) throws Exception{
+		return statusRepository.save(status);
 	}
 
 }

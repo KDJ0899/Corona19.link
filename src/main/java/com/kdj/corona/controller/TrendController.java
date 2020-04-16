@@ -1,33 +1,25 @@
 package com.kdj.corona.controller;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.client.HttpClientErrorException.Gone;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.kdj.corona.crawler.Crawler;
 import com.kdj.corona.db.service.StatusService;
-import com.kdj.corona.dto.NewsItem;
 import com.kdj.corona.dto.KeyWord;
 import com.kdj.corona.dto.News;
-import com.kdj.corona.dto.SearchTrend;
-import com.kdj.corona.dto.SearchForm;
 import com.kdj.corona.dto.Status;
+import com.kdj.corona.dto.SearchForm;
+import com.kdj.corona.dto.SearchTrend;
 import com.kdj.corona.navarAPI.DatalabSearch;
 import com.kdj.corona.navarAPI.SearchAPI;
 
@@ -108,29 +100,18 @@ public class TrendController {
 	    	//환자 현황.
 	    	statusList = statusService.getAll();
 	    	
-	    	status=statusList.get(0);
 	    	Status status2,maxStatus;
 	    	List<Status> statusList2 = new ArrayList<Status>();
-	    	Date date = null;
+	    	LocalDateTime date = null;
 			
 	    	for(int i=0; i<statusList.size(); i++){
 	    		status = statusList.get(i);
 	    		
 	    		answer = gson.toJson(status);
 		    	answerList.add(answer);
-	    		try {
-				    DateFormat formatter ; 
-				 
-				    formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-				    date = (Date)formatter.parse(status.getDate());
-				    
-				    status.setDate((date.getMonth()+1)+"-"+date.getDate());
-				    
-				} catch (Exception e) {}
-	    		
+	    		date = status.getDate();
 		    	
-		    	
-		    	if(date.getHours()!=9) {
+		    	if(date.getHour()!=9) {
 		    		answer = gson.toJson(status);
 	    			graphList.add(answer);
 	    			statusList2.add(status);
