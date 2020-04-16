@@ -1,3 +1,10 @@
-# corona
+# Corona19.link
 
-Spring Boot, Naver Map Api
+### [corona19.link](http://corona19.link)
+
+## Stack
+* Spring Boot
+* Gradle
+* MariaDB
+* Naver Search API, Naver DataLab API
+* Mybatis, jsoup, gson, jstl, lombok
