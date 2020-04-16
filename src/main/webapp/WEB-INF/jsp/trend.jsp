@@ -16,12 +16,12 @@
 		<div id="status_div" style = "margin-bottom: 5%;">
 				
 		</div>
-		<div id="status_chart_div" style="margin-bottom: 5%;">
+		<div id="status_chart_div">
 		</div>
-		
-		<div id="chart_div">
+		<p style="text-align: right; font-size:14px; margin-right: 30px; margin-bottom: 3%">* 전날대비 증가폭</p>
+		<div id="chart_div" style="margin-bottom: 5%;">
 		</div>
-		<p style="text-align: right; font-size:11px; margin-right: 20px;">* 확진자는 전날대비 증가폭</p>
+		<!-- <p style="text-align: right; font-size:11px; margin-right: 20px;">* 확진자는 전날대비 증가폭</p> -->
 		
 		<div style="width:70%; display: inline-block;">
 			<h2>관련 뉴스</h2>
@@ -49,6 +49,7 @@
 var statusList = JSON.parse('${status}');
 var newsList = JSON.parse('${news}');
 
+console.log(statusList);
 showStatusInfo(statusList);
 showNewsInfo(newsList)
 
@@ -94,12 +95,14 @@ function drawStatusChart() {
 		index++;
 
 	}  */
+	console.log(statusMax2);
+	console.log(graphList2);
 	
 	var index = 1;
 	for (var i = graphList2.length - 1; i >= 0; i--) { //날짜 입력. 
 		arr[index] = new Array(4);
 		var obj = graphList2[i];
-		arr[index][0] = obj.date;
+		arr[index][0] = obj.date.date.month+"-"+obj.date.date.day;
 		arr[index][1] = obj.quarantinedPatient / statusMax2.quarantinedPatient * 100;
 		arr[index][2] = obj.treatedPatient / statusMax2.treatedPatient * 100;
 		arr[index][3] = obj.deceasedPerson / statusMax2.deceasedPerson * 100;
@@ -125,7 +128,7 @@ function drawChart() {
 		bar: {
 			groupWidth: '80%' // 예제에서 이 값을 수정
 		},
-		seriesType: 'bars',
+		seriesType: 'line',
 		series: { 3: { type: 'line' } }, // 데이터에서 라인그래프로 만들값을 지정, 3은 순서를 의미하며 0부터 시작
 		hAxis: { textStyle: { fontSize: 12 } },
 		titleTextStyle: {fontSize: 20}
@@ -151,19 +154,19 @@ function drawChart() {
 
 	arr = new Array(diff);
 
-	arr[0] = new Array(results.length + 2);
+	arr[0] = new Array(results.length + 1);
 	arr[0][0] = 'Date';
 
 	date = (startDate.getMonth() + 1) + '-' + startDate.getDate();
 	map.set(date, new Array(results.length));
-	arr[1] = new Array(results.length + 2);
+	arr[1] = new Array(results.length + 1);
 	arr[1][0] = date;
 
 	for (var j = 2; j < diff + 1; j++) { //날짜 입력. 
 		startDate.setDate(startDate.getDate() + dateType);
 		date = (startDate.getMonth() + 1) + '-' + startDate.getDate();
-		map.set(date, new Array(results.length+1));
-		arr[j] = new Array(results.length + 2);
+		map.set(date, new Array(results.length));
+		arr[j] = new Array(results.length + 1);
 		arr[j][0] = date;
 	}
 
@@ -179,12 +182,13 @@ function drawChart() {
 		}
 	}
 
-	arr[0][4] = '확진자';
+	/* arr[0][4] = '확진자';
 	for(var i=0; i<graphList.length; i++){
 		var obj = graphList[i];
-		if(map.has(obj.date))
-			map.get(obj.date)[3] = obj.quarantinedPatient / statusMax.quarantinedPatient * 100;
-	}
+		date = obj.date.date;
+		if(map.has(date.month+"-"+date.day))
+			map.get(date.month+"-"+date.day)[3] = obj.quarantinedPatient / statusMax.quarantinedPatient * 100;
+	} */
 
 	var i = 1;
 	for (let u of map.keys()) {
@@ -194,7 +198,8 @@ function drawChart() {
 		}
 		i++;
 	}
-
+	
+	console.log(arr);
 	
 	var data = new google.visualization.arrayToDataTable(arr);
 	var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
@@ -215,8 +220,8 @@ function showStatusInfo(statusList) {
 	var colorClass1="red";
 	var colorClass2="blue";
 
-	var date1 = obj1.date.split(" ");
-	var date2 = obj2.date.split(" ");
+	var date1 = obj1.date.date.year+"-"+obj1.date.date.month+"-"+obj1.date.date.day;
+	var date2 = obj2.date.date.year+"-"+obj2.date.date.month+"-"+obj2.date.date.day;
 
 	if (obj1.quarantinedPatient - obj2.quarantinedPatient > 0) {
 		quarantinedPatient = "+" + quarantinedPatient;
@@ -236,7 +241,7 @@ function showStatusInfo(statusList) {
 	text += '<h3> 코로나바이러스감염증-19 국내 발생 현황 </h3>' +
 		'<table style="width:100%; border-spacing:10px; font-size:18px;">' +
 		'<tr>' +
-		'<td class = "left_td"></td>' + '<td class="date"><b>' + date2[0] + '</b></td>' + '<td class="date"><b>' + date1[0] + '</b></td>' +
+		'<td class = "left_td"></td>' + '<td class="date"><b>' + date2 + '</b></td>' + '<td class="date"><b>' + date1 + '</b></td>' +
 		'</tr>' +
 		'<tr>' +
 		'<td class = "left_td"><b>확진환자</b></td>' + '<td>' + obj2.quarantinedPatient + '</td>' + '<td>' + obj1.quarantinedPatient + ' (<b class="red">' + quarantinedPatient + '</b>)</td>' +

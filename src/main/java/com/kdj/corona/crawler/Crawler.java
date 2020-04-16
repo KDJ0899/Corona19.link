@@ -29,12 +29,9 @@ public class Crawler implements Runnable {
 		String date = null;
 		while(list==null) { //db에 저장된 정보 가져오기.
 			try {
+				System.out.println("here");
 				list = db.getAll();
-				date = list.get(0).getDate();
-				
-				nextDate=LocalDateTime.parse(date,
-			    	    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")); 
-				
+				nextDate = list.get(0).getDate();
 				nextDate =nextDate.plusDays(1);
 				Thread.sleep(1000);
 			} catch (Exception e) {
@@ -54,7 +51,7 @@ public class Crawler implements Runnable {
 				date= nextDate.getMonthValue()+"월 "+(nextDate.getDayOfMonth())+"일";
 				Status status = clawling(date);
 				if(status !=null) {
-					status.setDate(nextDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+					status.setDate(nextDate);
 					if(db.insert(status)) {
 						nextDate = nextDate.plusDays(1);
 						System.out.println("Sucsess");
