@@ -306,6 +306,10 @@ function showNewsInfo(list) {
 				dateStr = date + "시간전";
 			}
 		}
+		else{
+			date = (24+nowDate.getHours()) - date.getHours();
+			dateStr = date + "시간전";
+		}
 		text += '<div class="button" onclick="window.open(\'' + item.link + '\');">' +
 			'<div style="">' +
 			'<h3>' + item.title + '</h3>' +
